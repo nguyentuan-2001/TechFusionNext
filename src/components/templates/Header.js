@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export const Header = () => {
   return (
     <>
@@ -6,9 +8,9 @@ export const Header = () => {
         <nav className="navbar">
           <ul className="nav-items">
             <li className="nav-item">
-              <a href="#" className="nav-link">
+              <Link href="/home" className="nav-link">
                 HOME
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
               <a href="#" className="nav-link">
@@ -27,10 +29,6 @@ export const Header = () => {
             </li>
           </ul>
         </nav>
-        <div className="menu-toggle">
-          <i className="bx bx-menu"></i>
-          <i className="bx bx-x"></i>
-        </div>
       </header>
     </>
   );
