@@ -1,6 +1,7 @@
 import { ListCategoryBottom } from "@/components/molecules/ListCategoryBottom";
 import { HaderSection } from "@/components/organisms/HaderSection";
-import { ProductTop } from "@/components/organisms/ProductFrom";
+import { ListProduct } from "@/components/organisms/ListProduct";
+import { ProductTop } from "@/components/organisms/ProductTop";
 
 export const metadata = {
   title: "Technology",
@@ -16,7 +17,9 @@ const Home = () => {
           <ProductTop />
           <ProductTop />
         </section>
+        <ListProduct />
       </div>
+
       <ListCategoryBottom />
     </>
   );
