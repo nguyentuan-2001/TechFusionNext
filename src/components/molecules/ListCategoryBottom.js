@@ -1,3 +1,4 @@
+"use client";
 import { FaMouse } from "react-icons/fa";
 import { FaKeyboard } from "react-icons/fa";
 import { FaShoppingBag } from "react-icons/fa";
@@ -8,8 +9,15 @@ import { FaSquare } from "react-icons/fa";
 import { FaUsb } from "react-icons/fa";
 import { FaThermometer } from "react-icons/fa";
 import { FaDonate } from "react-icons/fa";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 export const ListCategoryBottom = () => {
+  useEffect(() => {
+    AOS.init();
+    AOS.refresh();
+  }, []);
   const items = [
     {
       icon: <FaMouse fontSize="inherit" />,
@@ -66,9 +74,9 @@ export const ListCategoryBottom = () => {
     <>
       <div className="container mx-auto">
         <div className="bg-white rounded-[20px] p-12 flex justify-center items-center">
-          <div className="grid gap-8 grid-cols-5">
+          <div className="grid gap-8 grid-cols-5" data-aos="zoom-in">
             {items.map((item, index) => (
-              <div key={index} className="w-28">
+              <div key={index} className="w-28" style={{cursor:'pointer'}}>
                 <div
                   className="w-full h-[112px] rounded-[20px] flex justify-center items-center text-7xl"
                   style={{ background: `${item.bgcolor}` }}

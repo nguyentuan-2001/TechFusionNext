@@ -1,10 +1,13 @@
 import Link from "next/link";
+import { Cart } from "../organisms/Cart";
 
 export const Header = () => {
   return (
     <>
       <header>
-        <div className="company-logo">D</div>
+        <div className="company-logo">
+          <Link href="/">KENTA</Link>
+        </div>
         <nav className="navbar">
           <ul className="nav-items">
             <li className="nav-item">
@@ -12,14 +15,15 @@ export const Header = () => {
                 HOME
               </Link>
             </li>
+
             <li className="nav-item">
-              <a href="#" className="nav-link">
-                OFFER
-              </a>
+              <Link href="/shop" className="nav-link">
+                SHOP
+              </Link>
             </li>
             <li className="nav-item">
               <a href="#" className="nav-link">
-                SHOP
+                OFFER
               </a>
             </li>
             <li className="nav-item">
@@ -30,6 +34,8 @@ export const Header = () => {
           </ul>
         </nav>
       </header>
+
+      <Cart />
     </>
   );
 };

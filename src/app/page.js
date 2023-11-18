@@ -1,7 +1,7 @@
 import { ListCategoryBottom } from "@/components/molecules/ListCategoryBottom";
 import { HaderSection } from "@/components/organisms/HaderSection";
-import { ListProduct } from "@/components/organisms/ListProduct";
-import { ProductTop } from "@/components/organisms/ProductTop";
+import { ListProductHome } from "@/components/organisms/ListProduct";
+import { ListProductTop } from "@/components/organisms/ProductTop";
 
 export const metadata = {
   title: "Technology",
@@ -12,12 +12,8 @@ const Home = () => {
     <>
       <HaderSection />
       <div className="container mx-auto">
-        <section className="justify-between grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10">
-          <ProductTop />
-          <ProductTop />
-          <ProductTop />
-        </section>
-        <ListProduct />
+        <ListProductTop />
+        <ListProductHome />
       </div>
 
       <ListCategoryBottom />
