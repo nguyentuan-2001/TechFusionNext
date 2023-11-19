@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Cart } from "../organisms/Cart";
+import { MiniCart } from "../organisms/MiniCart";
 
 export const Header = () => {
   return (
@@ -35,7 +35,7 @@ export const Header = () => {
         </nav>
       </header>
 
-      <Cart />
+      <MiniCart />
     </>
   );
 };

@@ -97,8 +97,10 @@
 }
 
 .card__status {
-  font-size: 0.8em;
-  color: #d7bdca;
+  font-size: 1em;
+  font-weight: bold;
+  color: #d0021c;
+  text-align: center;
 }
 
 .card__description {

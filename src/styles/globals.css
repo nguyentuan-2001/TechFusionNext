@@ -64,7 +64,7 @@ header {
   padding: 1rem 2rem;
   position: fixed;
   width: 100%;
-  z-index: 10;
+  z-index: 3;
   transform: translateY(-92px);
   border-bottom: 2px solid #d10024;
   box-sizing: border-box;

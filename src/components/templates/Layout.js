@@ -1,12 +1,15 @@
+import { ProductProvider } from "../contexts/ProductContext";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
 export const Layout = ({ children }) => {
   return (
     <>
-      <Header />
-      {children}
-      <Footer />
+      <ProductProvider>
+        <Header />
+        {children}
+        <Footer />
+      </ProductProvider>
     </>
   );
 };
