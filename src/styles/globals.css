@@ -285,7 +285,7 @@ header {
   }
 }
 .icon_cart {
-  animation: moveRight 1s linear infinite;
+  /* animation: moveRight 1s linear infinite; */
   padding: 10px;
   background: #F05D23;
   border-radius: 50%;

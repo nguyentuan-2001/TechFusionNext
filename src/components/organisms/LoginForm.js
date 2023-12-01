@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import "../../styles/login.css";
 import { Facebook, Google } from "../atoms/Icon";
 import { InputForm } from "../atoms/Input";
+import { useState } from "react";
 
 export const LoginForm = () => {
   const {
@@ -10,6 +11,8 @@ export const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const [create, setCreate] = useState();
 
   const onSubmit = (d) => {
     console.log(d);
@@ -22,7 +25,7 @@ export const LoginForm = () => {
         <div className="shape"></div>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <h3>Login</h3>
+        <h3>{create ? 'Signup': 'Signin'}</h3>
 
         <label htmlFor="username">Username</label>
         <InputForm
@@ -32,6 +35,11 @@ export const LoginForm = () => {
           type="text"
           placeholder={"username"}
         />
+        {errors.username && errors.username.type === "required" && (
+          <span className="text-red text-xs italic">
+            {errors.username.message}
+          </span>
+        )}
 
         <label htmlFor="password">Password</label>
         <InputForm
@@ -41,11 +49,21 @@ export const LoginForm = () => {
           type="password"
           placeholder={"password"}
         />
+        {errors.password && errors.password.type === "required" && (
+          <span className="text-red text-xs italic">
+            {errors.password.message}
+          </span>
+        )}
 
         <input type="submit" value={"Log In"} className="input_button" />
 
         <p className="text-center mt-5">
-          or <span className="text-blue-500 cursor-pointer hover:underline">Sign up</span>
+          <span
+            className="text-blue-500 cursor-pointer hover:underline"
+            onClick={() => setCreate(!create)}
+          >
+            {create ? 'Signup' : 'Signin'}
+          </span>
         </p>
 
         <div className="social">
