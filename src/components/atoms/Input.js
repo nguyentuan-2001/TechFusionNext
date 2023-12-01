@@ -23,3 +23,26 @@ export const InputQuantity = ({ quantity, setQuantity }) => {
     </div>
   );
 };
+
+export const InputForm = ({
+  register,
+  placeholder,
+  type,
+  className,
+  autoComplete,
+  disabled,
+}) => {
+  return (
+    <input
+      type={type}
+      {...register}
+      placeholder={placeholder}
+      className={`w-full h-14 border rounded-lg p-3 pl-[20px] bg-white text-base focus:outline-none text-black focus:border-white  ${
+        disabled ? "text-opacity-80" : "text-opacity-100"
+      } + ${className} `}
+      style={{ "--tw-ring-color": "rgba(0,0,0,0.6)" }}
+      autoComplete={autoComplete}
+      disabled={disabled}
+    />
+  );
+};

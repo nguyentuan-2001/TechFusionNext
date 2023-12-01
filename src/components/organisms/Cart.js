@@ -76,7 +76,7 @@ export const Cart = () => {
 
   const CloseModal = () => {
     setIsListProduct([]);
-    setIsOpen(flase);
+    setIsOpen(false);
   };
 
   const ContentModal = [];
