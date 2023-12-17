@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import "../../styles/atoms.css";
+
 export const InputQuantity = ({ quantity, setQuantity }) => {
   const handleIncrement = () => {
     setQuantity(quantity + 1);
@@ -24,6 +25,8 @@ export const InputQuantity = ({ quantity, setQuantity }) => {
   );
 };
 
+
+
 export const InputForm = ({
   register,
   placeholder,
@@ -37,7 +40,7 @@ export const InputForm = ({
       type={type}
       {...register}
       placeholder={placeholder}
-      className={`w-full h-14 border rounded-lg p-3 pl-[20px] bg-white text-base focus:outline-none text-black focus:border-white  ${
+      className={`w-full h-14 border rounded-lg p-3 pl-[20px] bg-slate-500 text-base focus:outline-none text-white focus:border-white  ${
         disabled ? "text-opacity-80" : "text-opacity-100"
       } + ${className} `}
       style={{ "--tw-ring-color": "rgba(0,0,0,0.6)" }}

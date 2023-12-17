@@ -2,19 +2,33 @@
 import { CgClose } from "react-icons/cg";
 import { TruncateText } from "../atoms/TruncateText";
 import { Button } from "../atoms/Button";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../contexts/ProductContext";
 import { InputQuantity } from "../atoms/Input";
 import { FormatPrice } from "../atoms/FormatPrice";
 import { useForm } from "react-hook-form";
 import Path from "@/utils/auth";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 import { Modal } from "../molecules/Modal";
+import Cookies from "js-cookie";
+import { useRouter, useSearchParams } from "next/navigation";
+
 
 export const Cart = () => {
   const { isListProduct, setIsListProduct } = useContext(ProductContext);
+  const [productUpdate, setProductUpdate] = useState([]);
+  const [quantity, setQuantity] = useState();
+  const [shipping, setShipping] = useState(1);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const searchParams = useSearchParams();
   const router = useRouter();
+
+  const storedIdCustomer = Cookies.get("id_customer");
+  let IdCustomer;
+  if (storedIdCustomer) {
+    IdCustomer = atob(storedIdCustomer);
+  }
   const {
     register,
     handleSubmit,
@@ -24,18 +38,18 @@ export const Cart = () => {
     formState: { errors },
   } = useForm();
 
-  const [quantity, setQuantity] = useState();
-  const [shipping, setShipping] = useState(1);
-  const [isOpen, setIsOpen] = useState(true);
-
+  //total product
   const arraySum = isListProduct
     .map((item, index) => item.product_quantity)
     .reduce((acc, current) => acc + current, 0);
-
+  //total money
   const total = isListProduct
-    .map((product) => product.product_price * product.product_quantity)
+    .map(
+      (product) =>
+        product.product_detail.product_price * product.product_quantity
+    )
     .reduce((acc, currentValue) => acc + currentValue, 0);
-
+  //change quantity
   const handleQuantityChange = (index, newQuantity) => {
     setQuantity({
       ...quantity,
@@ -45,37 +59,12 @@ export const Cart = () => {
     const updatedListProduct = [...isListProduct];
 
     updatedListProduct[index].product_quantity = newQuantity;
-
-    setIsListProduct(updatedListProduct);
+    setProductUpdate(updatedListProduct);
   };
 
-  const onSubmit = () => {
-    const orderData = {
-      customer_id: 1,
-      shipping_id: shipping,
-      payment_id: 1,
-      order_total: total,
-      order_status: 1,
-      order_detail: isListProduct.map((item, index) => ({
-        product_id: item.product_id,
-        product_name: item.product_name,
-        product_price: Number(item.product_price),
-        product_sales_quantity: item.product_quantity,
-      })),
-    };
-
-    axios
-      .post(Path.API + "/order", orderData)
-      .then((response) => {
-        setIsOpen(true);
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-      });
-  };
+  const onSubmit = () => {};
 
   const CloseModal = () => {
-    setIsListProduct([]);
     setIsOpen(false);
   };
 
@@ -92,13 +81,25 @@ export const Cart = () => {
     </div>
   );
 
+  const deleteProduct = (product_id) => {
+    axios
+      .delete(Path.API + `/cart/customer/${IdCustomer}/product/${product_id}`)
+      .then((response) => {
+        alert("Delete successful");
+        router.push(`/cart/?delete=1`);
+      })
+      .catch((error) => {
+        console.error("Error load cart :", error);
+      });
+  };
+
   return (
     <>
       {isOpen && (
         <Modal isOpen={isOpen} setIsOpen={setIsOpen} content={ContentModal} />
       )}
 
-      {isListProduct.length > 0 ? (
+      {isListProduct?.length > 0 ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="px-[5rem] py-10 grid lg:grid-cols-10">
             <div
@@ -114,13 +115,16 @@ export const Cart = () => {
                   className="flex items-center justify-between gap-5 my-5"
                   key={index}
                 >
-                  <img className="w-16 h-16" src={item.product_image} />
-                  <div>
+                  <img
+                    className="w-16 h-16"
+                    src={item.product_detail.product_image}
+                  />
+                  <div className="w-[50%]">
                     <p className="text-[#8e8e8e] font-bold text-xs pb-1">
                       Window
                     </p>
                     <p className="text-black font-semibold">
-                      {TruncateText(item.product_name, 70)}
+                      {TruncateText(item.product_detail.product_name, 70)}
                     </p>
                   </div>
                   <InputQuantity
@@ -129,12 +133,23 @@ export const Cart = () => {
                       handleQuantityChange(index, newQuantity)
                     }
                   />
-                  <p>{FormatPrice(item.product_price)}</p>
-                  <div className="cursor-pointer p-3 rounded-full hover:bg-orange hover:text-white">
+
+                  <p>{FormatPrice(item.product_detail.product_price)}</p>
+                  <div
+                    className="cursor-pointer p-3 rounded-full hover:bg-orange hover:text-white"
+                    onClick={() => deleteProduct(item.product_id)}
+                  >
                     <CgClose />
                   </div>
                 </div>
               ))}
+              <div className="flex justify-end items-end pt-5">
+                <Button
+                  title={"UPDATE QUANTITY"}
+                  type={"button"}
+                  // onClick={handleQuantity}
+                />
+              </div>
             </div>
             <div
               className=" bg-[#ddd] p-10 lg:col-span-3 shadow-2xl"

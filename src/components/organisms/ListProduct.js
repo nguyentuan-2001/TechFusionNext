@@ -9,38 +9,28 @@ import { ProductContext } from "../contexts/ProductContext";
 import Path from "@/utils/auth";
 import { Loading } from "../atoms/Loading";
 import { FormatPrice } from "../atoms/FormatPrice";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const Product = ({ data }) => {
-  const { isListProduct, setIsListProduct } = useContext(ProductContext);
+  const storedIdCustomer = Cookies.get("id_customer");
+  let IdCustomer;
+  if (storedIdCustomer) {
+    IdCustomer = atob(storedIdCustomer);
+  }
+  const buyData = {
+    customer_id: IdCustomer,
+    products: [{ product_id: data.product_id, product_quantity: 1 }],
+  };
   const handleBuyNow = () => {
-    const existingProduct = isListProduct.find(
-      (product) => product.product_id === data.product_id
-    );
-
-    if (existingProduct) {
-      // Nếu sản phẩm đã tồn tại trong mảng, tăng product_quantity lên 1
-      const updatedProducts = isListProduct.map((product) =>
-        product.product_id === data.product_id
-          ? { ...product, product_quantity: product.product_quantity + 1 }
-          : product
-      );
-
-      setIsListProduct(updatedProducts);
-    } else {
-      const newProduct = {
-        product_id: data.product_id,
-        category_id: data.category_id,
-        product_name: data.product_name,
-        product_content: data.product_content,
-        product_sale: data.product_sale,
-        product_price: data.product_price,
-        product_image: data.product_image,
-        product_status: data.product_status,
-        product_quantity: 1,
-      };
-
-      setIsListProduct((prevProducts) => [...prevProducts, newProduct]);
-    }
+    axios
+      .post(Path.API + "/carts", buyData)
+      .then((response) => {
+        
+      })
+      .catch((error) => {
+        console.error("Error placing order:", error);
+      });
   };
 
   return (
@@ -96,7 +86,6 @@ export const ListProductHome = () => {
         const result = await response.json();
         setDataAll(result);
         setLoading(false);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }

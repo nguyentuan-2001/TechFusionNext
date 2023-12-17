@@ -6,10 +6,6 @@
     box-sizing: border-box;
 }
 
-body {
-    background-color: #080710;
-}
-
 .background {
     width: 430px;
     height: 520px;
@@ -42,7 +38,7 @@ body {
 }
 
 form {
-    height: 65%;
+    height: auto;
     width: 400px;
     background-color: rgba(255, 255, 255, 0.13);
     position: absolute;
@@ -58,7 +54,7 @@ form {
 
 form * {
     font-family: 'Poppins', sans-serif;
-    color: #ffffff;
+    color: #000;
     letter-spacing: 0.5px;
     outline: none;
     border: none;
@@ -78,18 +74,6 @@ label {
     font-weight: 500;
 }
 
-input {
-    display: block;
-    height: 50px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-radius: 3px;
-    padding: 0 10px;
-    margin-top: 8px;
-    font-size: 14px;
-    font-weight: 300;
-}
-
 ::placeholder {
     color: #e5e5e5;
 }
@@ -97,8 +81,8 @@ input {
 .input_button {
     margin-top: 50px;
     width: 100%;
-    background: #ffffff;
-    color: #080710;
+    background: #000;
+    color: #fff;
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
@@ -109,13 +93,14 @@ input {
 .social {
     margin-top: 30px;
     display: flex;
+    justify-content: space-between;
 }
 
 .social div {
     width: 150px;
     border-radius: 3px;
     padding: 5px 10px 10px 5px;
-    background-color: rgba(255, 255, 255, 0.27);
+    background-color: rgb(100, 116, 139);
     color: #eaf0fb;
     text-align: center;
     display: flex;
@@ -127,13 +112,6 @@ input {
 }
 
 .social div:hover {
-    background-color: rgba(255, 255, 255, 0.47);
-}
-
-.social .fb {
-    margin-left: 25px;
-}
-
-.social i {
-    margin-right: 4px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgba(0, 0, 0, 0.8);;
 }
