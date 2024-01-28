@@ -6,13 +6,15 @@ import { Button } from "../atoms/Button";
 import { TruncateText } from "../atoms/TruncateText";
 import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../contexts/ProductContext";
-import Path from "@/utils/auth";
+import Path, { BuyProduct, ListProducts } from "@/utils/auth";
 import { Loading } from "../atoms/Loading";
 import { FormatPrice } from "../atoms/FormatPrice";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 const Product = ({ data }) => {
+  const router = useRouter();
   const storedIdCustomer = Cookies.get("id_customer");
   let IdCustomer;
   if (storedIdCustomer) {
@@ -22,15 +24,13 @@ const Product = ({ data }) => {
     customer_id: IdCustomer,
     products: [{ product_id: data.product_id, product_quantity: 1 }],
   };
-  const handleBuyNow = () => {
-    axios
-      .post(Path.API + "/carts", buyData)
-      .then((response) => {
-        
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-      });
+  const handleBuyNow = async () => {
+    try {
+      await BuyProduct(buyData);
+      router.push("/?product=" + data.product_id);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -82,8 +82,7 @@ export const ListProductHome = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(Path.API + "/products");
-        const result = await response.json();
+        const result = await ListProducts();
         setDataAll(result);
         setLoading(false);
       } catch (error) {

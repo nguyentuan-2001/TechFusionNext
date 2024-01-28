@@ -7,31 +7,10 @@ import { Menu, Transition } from "@headlessui/react";
 import axios from "axios";
 import Path from "@/utils/auth";
 import Cookies from "js-cookie";
+import { ProductContext } from "../contexts/ProductContext";
 
 export const MiniCart = ({ content }) => {
-  const [isListProduct, setIsListProduct] = useState([]);
-
-  const storedIdCustomer = Cookies.get("id_customer");
-  let IdCustomer;
-  if (storedIdCustomer) {
-    IdCustomer = atob(storedIdCustomer);
-  }
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      await axios
-        .get(Path.API + `/cart/${IdCustomer}`)
-        .then((response) => {
-          setIsListProduct(response.data.data);
-        })
-        .catch((error) => {
-          console.error("Error load cart :", error);
-        });
-    };
-    if (IdCustomer) {
-      fetchCart();
-    }
-  }, [IdCustomer]);
+  const { isListProduct, setIsListProduct } = useContext(ProductContext);
 
   return (
     <Menu as="div" className={`relative inline-block text-left`}>

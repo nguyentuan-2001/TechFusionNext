@@ -1,5 +1,5 @@
 "use client";
-import Path from "@/utils/auth";
+import Path, { ListCarts } from "@/utils/auth";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useParams, useSearchParams } from "next/navigation";
@@ -19,20 +19,15 @@ const ProductProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchCart = async () => {
-      await axios
-        .get(Path.API + `/cart/${IdCustomer}`)
-        .then((response) => {
-          setIsListProduct(response.data.data);
-        })
-        .catch((error) => {
-          console.error("Error load cart :", error);
-        });
+      const dataCart = await ListCarts({id: IdCustomer});
+      setIsListProduct(dataCart);
     };
     if (IdCustomer) {
       fetchCart();
     }
   }, [IdCustomer, searchParams]);
-
+  console.log(searchParams);
+  
   const contextValue = {
     isListProduct,
     setIsListProduct,

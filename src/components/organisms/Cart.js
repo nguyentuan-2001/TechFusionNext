@@ -7,12 +7,11 @@ import { ProductContext } from "../contexts/ProductContext";
 import { InputQuantity } from "../atoms/Input";
 import { FormatPrice } from "../atoms/FormatPrice";
 import { useForm } from "react-hook-form";
-import Path from "@/utils/auth";
+import Path, { DeleteProductCart } from "@/utils/auth";
 import axios from "axios";
 import { Modal } from "../molecules/Modal";
 import Cookies from "js-cookie";
 import { useRouter, useSearchParams } from "next/navigation";
-
 
 export const Cart = () => {
   const { isListProduct, setIsListProduct } = useContext(ProductContext);
@@ -81,16 +80,14 @@ export const Cart = () => {
     </div>
   );
 
-  const deleteProduct = (product_id) => {
-    axios
-      .delete(Path.API + `/cart/customer/${IdCustomer}/product/${product_id}`)
-      .then((response) => {
-        alert("Delete successful");
-        router.push(`/cart/?delete=1`);
-      })
-      .catch((error) => {
-        console.error("Error load cart :", error);
-      });
+  const deleteProduct = async (product_id) => {
+    const payload = {
+      IDCustomer: IdCustomer,
+      IDProduct: product_id,
+    };
+    await DeleteProductCart(payload);
+    // searchParams.set("delete", product_id);
+    router.push("/cart/?delete=" + product_id);
   };
 
   return (

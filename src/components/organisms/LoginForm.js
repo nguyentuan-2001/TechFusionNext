@@ -5,8 +5,7 @@ import { Facebook, Google } from "../atoms/Icon";
 import { InputForm } from "../atoms/Input";
 import { useState } from "react";
 import axios from "axios";
-import Path from "@/utils/auth";
-import Cookies from "js-cookie";
+import Path, { LoginCustomer } from "@/utils/auth";
 import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
@@ -19,27 +18,18 @@ export const LoginForm = () => {
 
   const [create, setCreate] = useState();
 
-  const onSubmit = (d) => {
+  const onSubmit = async(d) => {
     const loginData = {
       customer_name: d.username,
       customer_password: d.password,
     };
-
-    axios
-      .post(Path.API + "/customer/login", loginData)
-      .then((response) => {
-        if (response.data.data.length !== 0) {
-          Cookies.set("token", response.data.data.access_token);
-          const id_customer = btoa(response.data.data.customer.customer_id); // Sử dụng hàm btoa() để mã hóa Base64
-          Cookies.set("id_customer", id_customer);
-          router.back();
-        } else {
-          alert("Username or password is incorrect");
-        }
-      })
-      .catch((error) => {
-        console.error("Error placing order:", error);
-      });
+    try {
+      await LoginCustomer(loginData);
+      
+      router.back();
+    } catch (error) {
+      alert("Username or password is incorrect");
+    }
   };
 
   return (
