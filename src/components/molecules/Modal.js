@@ -23,7 +23,7 @@ export const Modal = ({ isOpen, setIsOpen, content }) => {
             <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" />
           </Transition.Child>
 
-          <div className="w-1/2 mx-auto z-[52]">
+          <div className="w-auto mx-auto z-[52]">
             <Transition.Child
               as={Fragment}
               enter="transform transition ease-in-out duration-500 sm:duration-700"
@@ -33,7 +33,7 @@ export const Modal = ({ isOpen, setIsOpen, content }) => {
               leaveFrom="translate-y-0"
               leaveTo="translate-y-full"
             >
-              <Dialog.Panel className="bg-white rounded-[20px] overflow-hidden">
+              <Dialog.Panel className="bg-white overflow-hidden">
                 <div className="flex flex-col h-full">
                   <div className="py-6 px-8 bg-white text-black rounded-t-[32px] w-full transition-all">
                     {content}

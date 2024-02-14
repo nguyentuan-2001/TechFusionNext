@@ -7,7 +7,7 @@ export const metadata = {
 const CartPage = () => {
   return (
     <>
-      <div className="mt-[92px]">
+      <div>
         <Cart />
       </div>
     </>

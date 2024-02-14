@@ -17,16 +17,16 @@ const ProductProvider = ({ children }) => {
     IdCustomer = atob(storedIdCustomer);
   }
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      const dataCart = await ListCarts({id: IdCustomer});
-      setIsListProduct(dataCart);
-    };
-    if (IdCustomer) {
-      fetchCart();
-    }
-  }, [IdCustomer, searchParams]);
-  console.log(searchParams);
+  // useEffect(() => {
+  //   const fetchCart = async () => {
+  //     const dataCart = await ListCarts({id: IdCustomer});
+  //     setIsListProduct(dataCart);
+  //   };
+  //   if (IdCustomer) {
+  //     fetchCart();
+  //   }
+  // }, [IdCustomer, searchParams]);
+  // console.log(searchParams);
   
   const contextValue = {
     isListProduct,

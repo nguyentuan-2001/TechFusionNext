@@ -5,7 +5,7 @@ export const Dropdown = ({ content, listitem }) => {
   return (
     <Menu as="div" className={`relative inline-block text-left`}>
       <div>
-        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-none px-3 text-sm font-semibold shadow-sm text-white ring-inset ring-gray-300 hover:bg-gray-50">
+        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-none font-semibold shadow-sm ring-inset ring-gray-300 hover:bg-gray-50">
           {content}
         </Menu.Button>
       </div>
@@ -19,7 +19,7 @@ export const Dropdown = ({ content, listitem }) => {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-52 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none translate-x-10 translate-y-6">
+        <Menu.Items className="absolute right-0 z-10 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none translate-x-10 translate-y-6">
           <div
             className="absolute h-0 w-0 border-solid right-11"
             style={{
@@ -28,12 +28,12 @@ export const Dropdown = ({ content, listitem }) => {
               borderColor: "transparent transparent #fff transparent",
             }}
           ></div>
-          <div className="py-1">
+          <div className="min-w-[100px] w-max">
             {listitem?.map((item, index) => (
               <Menu.Item key={index}>
                 <p
                   className={
-                    "block px-4 py-2 text-sm cursor-pointer hover:bg-gray_light"
+                    "px-3 py-3 text-sm cursor-pointer  hover:bg-gray_light block hover:rounded-md "
                   }
                   onClick={item.onclick}
                 >
@@ -47,3 +47,4 @@ export const Dropdown = ({ content, listitem }) => {
     </Menu>
   );
 };
+

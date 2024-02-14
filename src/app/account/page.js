@@ -5,7 +5,7 @@ export const metadata = {
 const AccountPage = () => {
   return (
     <>
-      <div className="mt-[92px]"></div>
+      <div className=""></div>
     </>
   );
 };

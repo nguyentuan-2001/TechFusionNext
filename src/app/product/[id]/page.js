@@ -1,5 +1,6 @@
 import { Modal } from "@/components/molecules/Modal";
 import { HaderSection } from "@/components/organisms/HaderSection";
+import { ProductDetail } from "@/components/organisms/ProductDetail";
 
 export const metadata = {
   title: "Technology",
@@ -8,8 +9,8 @@ export const metadata = {
 const HomePage = () => {
   return (
     <>
-      <div className="mt-[92px]">
-        
+      <div className="">
+        <ProductDetail />
       </div>
     </>
   );

@@ -11,11 +11,10 @@ import { ProductContext } from "../contexts/ProductContext";
 
 export const MiniCart = ({ content }) => {
   const { isListProduct, setIsListProduct } = useContext(ProductContext);
-
   return (
     <Menu as="div" className={`relative inline-block text-left`}>
       <div>
-        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-none px-3 text-sm font-semibold shadow-sm text-white ring-inset ring-gray-300 hover:bg-gray-50">
+        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-none px-3 text-sm font-semibold shadow-sm ring-inset ring-gray-300 hover:bg-gray-50">
           {content}
         </Menu.Button>
       </div>
@@ -67,12 +66,28 @@ export const MiniCart = ({ content }) => {
                 </>
               </Menu.Item>
             ))}
-            <Link href="/cart">
-              <div className="flex justify-end items-center gap-2 p-5 cursor-pointer">
-                <p className="text-right text-black">Xem giỏ hàng </p>
-                <FaShoppingCart className="text-black" />
+            {isListProduct.length > 0 ? (
+              <div className="flex justify-between items-center gap-2 p-5 cursor-pointer">
+                <p className="text-right text-black">
+                  {isListProduct.length} sản phẩm đã thêm{" "}
+                </p>
+                <Link
+                  href="/cart"
+                  className="bg-[var(--primary-color)] flex justify-between items-center gap-2 p-2"
+                >
+                  <p className="text-right text-white">Xem giỏ hàng </p>
+                  <FaShoppingCart className="text-white" />
+                </Link>
               </div>
-            </Link>
+            ) : (
+              <div className="h-56 flex justify-center flex-col items-center gap-4">
+                <img
+                  src="https://taphoa.cz/static/media/cart-empty-img.8b677cb3.png"
+                  className="w-[80%]"
+                />
+                <p>Không có sản phẩm nào</p>
+              </div>
+            )}
           </div>
         </Menu.Items>
       </Transition>

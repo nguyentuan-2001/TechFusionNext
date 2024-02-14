@@ -2,9 +2,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import "../../styles/atoms.css";
 
-export const InputQuantity = ({ quantity, setQuantity }) => {
+export const InputQuantity = ({ quantity, setQuantity, maxQuantity }) => {
   const handleIncrement = () => {
-    setQuantity(quantity + 1);
+    if (quantity < maxQuantity) {
+      setQuantity(quantity + 1);
+    }
   };
 
   const handleDecrement = () => {
@@ -17,15 +19,13 @@ export const InputQuantity = ({ quantity, setQuantity }) => {
       <button type="button" onClick={handleDecrement}>
         -
       </button>
-      <input type="number" value={quantity} readOnly />
+      <input type="number" value={quantity} readOnly max={10} />
       <button type="button" onClick={handleIncrement}>
         +
       </button>
     </div>
   );
 };
-
-
 
 export const InputForm = ({
   register,
@@ -40,7 +40,7 @@ export const InputForm = ({
       type={type}
       {...register}
       placeholder={placeholder}
-      className={`w-full h-14 border rounded-lg p-3 pl-[20px] bg-slate-500 text-base focus:outline-none text-white focus:border-white  ${
+      className={`w-full h-12 border border-gray-300 border-solid rounded-lg p-3 pl-[20px] text-base  ${
         disabled ? "text-opacity-80" : "text-opacity-100"
       } + ${className} `}
       style={{ "--tw-ring-color": "rgba(0,0,0,0.6)" }}

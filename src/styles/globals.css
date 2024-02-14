@@ -55,76 +55,6 @@ body {
   box-sizing: border-box;
 }
 
-/* ================= HEADER ================ */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--dark-color);
-  padding: 1rem 2rem;
-  position: fixed;
-  width: 100%;
-  z-index: 3;
-  transform: translateY(-92px);
-  border-bottom: 2px solid #d10024;
-  box-sizing: border-box;
-}
-.company-logo {
-  font-size: 2.5rem;
-  background: -webkit-linear-gradient(
-    120deg,
-    var(--primary-color-alt),
-    var(--primary-color)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.nav-items {
-  display: flex;
-}
-.nav-item {
-  margin: 0 2rem;
-}
-.nav-link {
-  font-size: 1.1rem;
-  letter-spacing: 0.05rem;
-  position: relative;
-  background: -webkit-linear-gradient(
-    var(--primary-color-alt),
-    var(--primary-color)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.nav-link::before {
-  content: "";
-  background: linear-gradient(var(--primary-color), var(--primary-color-alt));
-  width: 100%;
-  height: 0.05rem;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 150ms;
-}
-.nav-link:hover::before {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-.bx-menu,
-.bx-x {
-  cursor: pointer;
-  background: -webkit-linear-gradient(
-    120deg,
-    var(--primary-color-alt),
-    var(--primary-color)
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: none !important;
-}
-
 /* =============== FOOTER =============== */
 .top-footer {
   background-color: var(--second-color);
@@ -224,9 +154,6 @@ header {
   }
 }
 @media (min-width: 769px) {
-  header {
-    padding: 1rem 5rem;
-  }
   /* =============== FOOTER =============== */
   .top-footer {
     flex-direction: row;

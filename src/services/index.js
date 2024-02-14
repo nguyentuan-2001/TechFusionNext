@@ -38,9 +38,17 @@ const mainRequest = (
 const SERVICES = {
   /* <CUSTOMERS> */
   loginCustomer: (payload) => mainRequest(`/customer/login/`, payload, "post"),
+  signupCustomer: (payload) => mainRequest(`/customer/`, payload, "post"),
 
   /* <PRODUCTS> */
   getProducts: (payload) => mainRequest(`/products/`, payload, "get"),
+  // allProducts: (payload) => mainRequest(`/products/pagination/`, payload, "get"),
+  getProductByCategory: (payload) =>
+    mainRequest(`/products/${payload.id}/`, null, "get"),
+  getProductDetail: (payload) =>
+    mainRequest(`/products/detail/${payload.product_id}/`, null, "get"),
+  getProductRelated: (payload) =>
+    mainRequest(`/products/related/${payload.category_id}/${payload.product_id}/`, null, "get"),
 
   /* <CARTS> */
   buyProduct: (payload) => mainRequest(`/carts/`, payload, "post"),
@@ -51,6 +59,23 @@ const SERVICES = {
       payload,
       "delete"
     ),
+  updateProductCart: (payload) =>
+    mainRequest(`/cart/customer/${payload.customer_id}/`, payload, "put"),
+  deleteAllProductCart: (payload) =>
+    mainRequest(`/cart/customer/${payload.customer_id}/`, payload, "delete"),
+
+  /* <CATEGORIES> */
+  getCategories: (payload) => mainRequest(`/category/`, payload, "get"),
+
+  /* <ADDRESS> */
+  getProvinces: (payload) => mainRequest(`/get-provinces/`, payload, "get"),
+  getDistricts: (payload) =>
+    mainRequest(`/get-districts/${payload.province_id}/`, payload, "get"),
+  getWards: (payload) =>
+    mainRequest(`/get-wards/${payload.district_id}/`, payload, "get"),
+
+  /* <ORDER> */
+  orderProduct: (payload) => mainRequest(`/order/`, payload, "post"),
 };
 
 export default SERVICES;
