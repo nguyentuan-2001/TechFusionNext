@@ -1,10 +1,15 @@
-import { Layout } from "@/components/templates/Layout";
-import "../styles/globals.css";
+"use client";
+import { useSearchParams } from "next/navigation";
+import { Layout } from "./@user/components/templates/Layout";
+import "./@user/styles/globals.css";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ user, admin }) {
+  const searchParams = useSearchParams();
+  const role = searchParams.get("role");
+
   return (
     <html lang="en">
       <link
@@ -13,8 +18,8 @@ export default function RootLayout({ children }) {
         type="image/x-icon"
         sizes="16x16"
       />
-      <body className={inter.className}>
-        <Layout>{children}</Layout>
+      <body className={inter.className} suppressHydrationWarning={true}>
+        {role === "user" ? <Layout>{user}</Layout> : admin}
       </body>
     </html>
   );

@@ -57,7 +57,7 @@ export const Cart = () => {
     if (IdCustomer) {
       fetchCart();
     }
-  }, [IdCustomer, searchParams]);
+  }, [IdCustomer,searchParams]);
 
   //total product
   const arraySum = isListProduct
