@@ -5,7 +5,7 @@ export const Dropdown = ({ content, listitem }) => {
   return (
     <Menu as="div" className={`relative inline-block text-left`}>
       <div>
-        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-none font-semibold shadow-sm ring-inset ring-gray-300 hover:bg-gray-50">
+        <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-none font-semibold hover:bg-gray-50 cursor-pointer">
           {content}
         </Menu.Button>
       </div>
@@ -33,11 +33,11 @@ export const Dropdown = ({ content, listitem }) => {
               <Menu.Item key={index}>
                 <p
                   className={
-                    "px-3 py-3 text-sm cursor-pointer  hover:bg-gray_light block hover:rounded-md "
+                    "px-5 py-3 text-sm cursor-pointer hover:bg-gray_light hover:rounded-md flex gap-2 items-center"
                   }
                   onClick={item.onclick}
                 >
-                  {item.text}
+                  {item?.icon} {item.text}
                 </p>
               </Menu.Item>
             ))}
@@ -47,4 +47,3 @@ export const Dropdown = ({ content, listitem }) => {
     </Menu>
   );
 };
-

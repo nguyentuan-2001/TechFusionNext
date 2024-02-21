@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { InputQuantity } from "../atoms/Input";
 import { FaMobileScreenButton } from "react-icons/fa6";
 import { FaCamera, FaRegClock } from "react-icons/fa";
@@ -8,6 +8,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import { useParams, useRouter } from "next/navigation";
 import {
   BuyProduct,
+  GetGalleries,
   GetProductDetail,
   GetProductRelated,
   ListCarts,
@@ -17,13 +18,18 @@ import { LoadingAllPage } from "../atoms/Loading";
 import Notification from "../atoms/Notification";
 import Cookies from "js-cookie";
 import { useForm } from "react-hook-form";
+import { AuthContext } from "../contexts/AuthContext";
+import { ButtonRadio } from "../atoms/ButtonRadio";
 
 export const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [detailProduct, setDetailProduct] = useState();
   const [relatedProduct, setRelatedProduct] = useState();
+  const [listGalleries, setListGalleries] = useState();
   const [loading, setLoading] = useState(true);
+  const [selectedColor, setSelectedColor] = useState();
 
+  const { setBreadcrumb } = useContext(AuthContext);
   const params = useParams();
   const router = useRouter();
   const {
@@ -43,40 +49,56 @@ export const ProductDetail = () => {
 
   const images = [
     {
-      original:
-        "https://d1hjkbq40fs2x4.cloudfront.net/2017-08-21/files/landscape-photography_1645-t.jpg",
-      thumbnail:
-        "https://d1hjkbq40fs2x4.cloudfront.net/2017-08-21/files/landscape-photography_1645-t.jpg",
-      originalHeight: 380,
-      sizes: "auto",
-    },
-    {
-      original:
-        "https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg",
-      thumbnail:
-        "https://i.pinimg.com/736x/6e/74/63/6e7463744c9fdf25c505adfd51902f50.jpg",
-      originalHeight: 380,
-      sizes: "auto",
-    },
-    {
-      original:
-        "https://d1hjkbq40fs2x4.cloudfront.net/2017-08-21/files/landscape-photography_1645-t.jpg",
-      thumbnail:
-        "https://d1hjkbq40fs2x4.cloudfront.net/2017-08-21/files/landscape-photography_1645-t.jpg",
+      original: detailProduct?.data?.product_image,
+      thumbnail: detailProduct?.data?.product_image,
       originalHeight: 380,
       sizes: "auto",
     },
   ];
 
+  //lấy ra color mà sản phẩm có
+  const getColorName = (colorId) => {
+    const color = detailProduct?.colors?.find(
+      (item) => item.color_id === colorId
+    );
+    return color ? color.color_name : "";
+  };
+
+  const colorNames = detailProduct?.data?.product_colors.map((item) =>
+    getColorName(item.color_id)
+  );
+  const dataColors = colorNames?.map((item, index) => ({
+    color: item,
+    color_id: detailProduct?.data?.product_colors[index].color_id,
+  }));
+
+  // lấy ra quantity với màu đã chọn
+  const quantityColor = detailProduct?.data?.product_colors?.find(
+    (item) => item.color_id === selectedColor
+  )?.quantity;
+
   //lấy ra data detail
   useEffect(() => {
     const fetchDetail = async () => {
       const dataDetail = await GetProductDetail({ product_id: params.id });
-      setDetailProduct(dataDetail?.data);
+      setDetailProduct(dataDetail);
       setLoading(false);
+      setBreadcrumb(dataDetail?.data.product_name);
+    };
+    const fetchGalleries = async () => {
+      const dataGalleries = await GetGalleries({ product_id: params.id });
+
+      const data = dataGalleries?.map((item, index) => ({
+        original: item.gallery_image,
+        thumbnail: item.gallery_image,
+        originalHeight: 380,
+        sizes: "auto",
+      }));
+      setListGalleries(data);
     };
     if (params) {
       fetchDetail();
+      fetchGalleries();
     }
   }, []);
 
@@ -85,11 +107,11 @@ export const ProductDetail = () => {
     const fetchRelated = async () => {
       const dataDetail = await GetProductRelated({
         product_id: params.id,
-        category_id: detailProduct?.category_id,
+        category_id: detailProduct?.data?.category_id,
       });
       setRelatedProduct(dataDetail?.data);
     };
-    if (params) {
+    if (params && detailProduct) {
       fetchRelated();
     }
   }, [detailProduct]);
@@ -100,7 +122,13 @@ export const ProductDetail = () => {
       const IdCustomer = atob(storedIdCustomer);
       const buyData = {
         customer_id: IdCustomer,
-        products: [{ product_id: params.id, product_quantity: quantity }],
+        products: [
+          {
+            product_id: params.id,
+            color_id: selectedColor,
+            product_quantity: quantity,
+          },
+        ],
       };
 
       await BuyProduct(buyData);
@@ -115,7 +143,13 @@ export const ProductDetail = () => {
       const IdCustomer = atob(storedIdCustomer);
       const buyData = {
         customer_id: IdCustomer,
-        products: [{ product_id: params.id, product_quantity: quantity }],
+        products: [
+          {
+            product_id: params.id,
+            color_id: selectedColor,
+            product_quantity: quantity,
+          },
+        ],
       };
 
       await BuyProduct(buyData);
@@ -125,6 +159,7 @@ export const ProductDetail = () => {
     }
     router.push("/cart");
   };
+
   return (
     <>
       {loading ? (
@@ -137,7 +172,7 @@ export const ProductDetail = () => {
                 <div className="w-full px-4 mb-8 md:w-1/2 md:mb-0">
                   <div className="sticky top-0 overflow-hidden ">
                     <ImageGallery
-                      items={images}
+                      items={listGalleries || images || []}
                       showFullscreenButton={true} // Optional: Allow fullscreen mode
                       showPlayButton={true} // Optional: Remove play button
                       showBullets={true} // Optional: Show bullet indicators
@@ -162,23 +197,23 @@ export const ProductDetail = () => {
                         New Arrival
                       </span>
                       <span className="px-2.5 py-0.5 text-xs text-white bg-[#FF6868] dark:bg-gray-700 rounded-xl dark:text-gray-200">
-                        Sale({detailProduct?.product_sale}%)
+                        Sale({detailProduct?.data?.product_sale}%)
                       </span>
                       <h2 className="max-w-xl mt-6 mb-6 text-xl font-semibold leading-loose tracking-wide text-gray-700 md:text-2xl dark:text-gray-300">
-                        {detailProduct?.product_name}
+                        {detailProduct?.data?.product_name}
                       </h2>
 
                       <p className="inline-block text-2xl font-semibold text-gray-700 dark:text-gray-400 ">
                         <span>
                           {FormatPrice(
-                            detailProduct?.product_price -
-                              (detailProduct?.product_price *
-                                detailProduct?.product_sale) /
+                            detailProduct?.data?.product_price -
+                              (detailProduct?.data?.product_price *
+                                detailProduct?.data?.product_sale) /
                                 100
                           )}
                         </span>
                         <span className="ml-3 text-base font-normal text-gray-500 line-through dark:text-gray-400">
-                          {FormatPrice(detailProduct?.product_price)}
+                          {FormatPrice(detailProduct?.data?.product_price)}
                         </span>
                       </p>
                     </div>
@@ -256,37 +291,35 @@ export const ProductDetail = () => {
                       </div>
                     </div>
                     <div className="py-6 mb-6 border-t border-b border-gray-200 dark:border-gray-700">
-                      <span className="text-base text-gray-600 dark:text-gray-400">
-                        In Stock
-                      </span>
-                      <p className="mt-2 text-sm text-blue-500 dark:text-blue-200">
-                        Ships from china.
-                        <span className="text-gray-600 dark:text-gray-400">
-                          Most customers receive within 3-31 days.
-                        </span>
-                      </p>
+                      <h2 className="mb-2 text-lg font-bold text-gray-700 dark:text-gray-400">
+                        Color:
+                      </h2>
+                      <ButtonRadio
+                        dataColors={dataColors}
+                        setSelectedColor={setSelectedColor}
+                      />
                     </div>
-                    <div className="flex flex-wrap items-center justify-between mb-6">
+                    <div className="flex flex-wrap items-center justify-start gap-10 mb-6">
                       <div className="mb-4 mr-4 lg:mb-0 ">
                         <div className="w-28">
                           <InputQuantity
                             quantity={quantity}
                             setQuantity={setQuantity}
-                            maxQuantity={
-                              detailProduct?.product_inventory_quantity
-                            }
+                            maxQuantity={quantityColor}
                           />
                         </div>
                       </div>
-
+                      <span>
+                        {quantityColor ? `${quantityColor} products` : null}
+                      </span>
+                    </div>
+                    <div className="flex-col gap-4 mb-6">
                       <button
-                        className="w-full px-4 py-3 text-center text-gray hover:text-white bg-blue-100 border border-blue-600 dark:hover:bg-gray-900 dark:text-gray-400 dark:border-gray-700 dark:bg-gray-700 hover:bg-blue-600 hover:text-gray-100 lg:w-1/2 rounded-xl"
+                        className="w-full px-4 py-3 mb-3 text-center text-gray hover:text-white bg-blue-100 border border-blue-600 dark:hover:bg-gray-900 dark:text-gray-400 dark:border-gray-700 dark:bg-gray-700 hover:bg-blue-600 hover:text-gray-100 rounded-xl"
                         type="submit"
                       >
                         Add to cart
                       </button>
-                    </div>
-                    <div className="flex gap-4 mb-6">
                       <button
                         className="w-full px-4 py-3 text-center text-white bg-blue-600 border border-transparent dark:border-gray-700 hover:border-blue-500 hover:text-blue-700 hover:bg-blue-100 dark:text-gray-400 dark:bg-gray-700 dark:hover:bg-gray-900 rounded-xl"
                         type="button"

@@ -48,7 +48,13 @@ const SERVICES = {
   getProductDetail: (payload) =>
     mainRequest(`/products/detail/${payload.product_id}/`, null, "get"),
   getProductRelated: (payload) =>
-    mainRequest(`/products/related/${payload.category_id}/${payload.product_id}/`, null, "get"),
+    mainRequest(
+      `/products/related/${payload.category_id}/${payload.product_id}/`,
+      null,
+      "get"
+    ),
+  getProductSearch: (payload) =>
+    mainRequest(`/products/search/`, payload, "get"),
 
   /* <CARTS> */
   buyProduct: (payload) => mainRequest(`/carts/`, payload, "post"),
@@ -76,6 +82,10 @@ const SERVICES = {
 
   /* <ORDER> */
   orderProduct: (payload) => mainRequest(`/order/`, payload, "post"),
+
+  /* <GALLERY> */
+  getGalleries: (payload) =>
+    mainRequest(`/galleries/${payload.product_id}/`, payload, "get"),
 };
 
 export default SERVICES;

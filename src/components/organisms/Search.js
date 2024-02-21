@@ -1,10 +1,19 @@
 import { FaSearch } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 
 export const Search = ({ showSearch, setShowSearch }) => {
+  const router = useRouter();
   const toggleSearch = () => {
     setShowSearch(!showSearch);
-    console.log(23);
+  };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const keyword = e.target.value;
+      setShowSearch(false);
+      router.push(`/search/?keyword=${keyword}`);
+    }
   };
   return (
     <>
@@ -16,6 +25,7 @@ export const Search = ({ showSearch, setShowSearch }) => {
             type="search"
             placeholder="What are you looking for?"
             className="search__input"
+            onKeyDown={handleKeyDown}
           />
         </form>
 

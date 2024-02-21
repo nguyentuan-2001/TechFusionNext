@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from "react";
 import { ProductContext } from "../contexts/ProductContext";
 import Path, {
   BuyProduct,
+  GetProductSearch,
   ListProducts,
   ListProductsByCategory,
 } from "@/utils/auth";
@@ -35,7 +36,13 @@ const Product = ({ data }) => {
         const IdCustomer = atob(storedIdCustomer);
         const buyData = {
           customer_id: IdCustomer,
-          products: [{ product_id: data.product_id, product_quantity: 1 }],
+          products: [
+            {
+              product_id: data.product_id,
+              color_id: data?.product_colors[0].color_id,
+              product_quantity: 1,
+            },
+          ],
         };
 
         await BuyProduct(buyData);
@@ -90,7 +97,7 @@ const Product = ({ data }) => {
               )}
             </div>
           </div>
-          <div className="pl-[2em] flex">
+          {/* <div className="pl-[2em] flex">
             <div className="w-[40%]">
               <p>CPU</p>
               <p>RAM</p>
@@ -105,7 +112,7 @@ const Product = ({ data }) => {
               <p>{data.product_detail?.product_card}</p>
               <p>{data.product_detail?.desktop}</p>
             </div>
-          </div>
+          </div> */}
           <div className="flex justify-center gap-2 p-5">
             <Button title={"Buy"} type={"button"} onClick={handleBuyNow} />
             <Button
@@ -155,7 +162,7 @@ export const ListProductHome = () => {
         </div>
       ) : (
         <ul className="cards">
-          {dataAll?.data.map((item, index) => (
+          {dataAll?.data?.data.map((item, index) => (
             <Product data={item} key={index} />
           ))}
         </ul>
@@ -176,7 +183,7 @@ export const ListProductHome = () => {
         </div>
       ) : (
         <ul className="cards">
-          {dataAll?.data.map((item, index) => (
+          {dataAll?.data?.data.map((item, index) => (
             <Product data={item} key={index} />
           ))}
         </ul>
@@ -191,6 +198,7 @@ export const AllProducts = ({ category }) => {
   const [selectedSort, setSelectedSort] = useState(null);
   const searchParams = useSearchParams();
   const params = useParams();
+  const { setBreadcrumb } = useContext(AuthContext);
 
   const [paginationPage, setPaginationPage] = useState(
     searchParams.get("page") ?? 1
@@ -202,6 +210,7 @@ export const AllProducts = ({ category }) => {
         const result = await ListProducts({ page: paginationPage });
         setDataAll(result);
         setLoading(false);
+        setBreadcrumb("All Products");
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -216,6 +225,7 @@ export const AllProducts = ({ category }) => {
         const result = await ListProductsByCategory({ params });
         setDataAll(result);
         setLoading(false);
+        setBreadcrumb(result?.category_name);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -233,10 +243,12 @@ export const AllProducts = ({ category }) => {
     arrayForm: ContentSelect,
     data: dataSelect,
   });
-
   return (
     <>
-      <div className="flex gap-5 justify-end items-center py-10">
+      <p className="text-center text-2xl font-semibold pt-5">
+        {!category ? "All Product" : dataAll?.category_name}
+      </p>
+      <div className="flex gap-5 justify-end items-center pb-4">
         <div className=" w-52">
           <Select
             selected={selectedSort}
@@ -254,6 +266,69 @@ export const AllProducts = ({ category }) => {
         </div>
       ) : (
         <>
+          {dataAll?.data.data?.length > 0 ? (
+            <>
+              <ul className="cards">
+                {dataAll?.data?.data.map((item, index) => (
+                  <Product data={item} key={index} />
+                ))}
+              </ul>
+              <Pagination
+                total={dataAll?.data?.total}
+                paginationPage={paginationPage}
+                setPaginationPage={setPaginationPage}
+              />
+            </>
+          ) : (
+            <center>No Products</center>
+          )}
+        </>
+      )}
+    </>
+  );
+};
+
+export const AllSearchProducts = ({}) => {
+  const [dataAll, setDataAll] = useState();
+  const [loading, setLoading] = useState(true);
+  const { setBreadcrumb } = useContext(AuthContext);
+
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get("keyword");
+
+  useEffect(() => {
+    const fetchDataSearchProduct = async () => {
+      try {
+        const result = await GetProductSearch({ product_name: search });
+        setDataAll(result);
+        setLoading(false);
+        setBreadcrumb("Search");
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchDataSearchProduct();
+  }, []);
+  return (
+    <>
+      <div className="py-10">
+        <p className="text-center font-semibold text-3xl">Tìm kiếm</p>
+        <p className="text-center py-2">
+          Có {dataAll?.data.length} sản phẩm phù hợp với từ khóa
+        </p>
+        <p className="flex justify-center">
+          <span className="w-10 h-[2px] bg-gray"></span>
+        </p>
+      </div>
+
+      {loading ? (
+        <div className="h-[50vh] flex items-center justify-center">
+          <Loading />
+        </div>
+      ) : (
+        <>
           {dataAll.data?.length > 0 ? (
             <>
               <ul className="cards">
@@ -261,14 +336,11 @@ export const AllProducts = ({ category }) => {
                   <Product data={item} key={index} />
                 ))}
               </ul>
-              <Pagination
-                total={dataAll?.total}
-                paginationPage={paginationPage}
-                setPaginationPage={setPaginationPage}
-              />
             </>
           ) : (
-            <center>No Products</center>
+            <div className="h-40">
+              <center>No Products</center>
+            </div>
           )}
         </>
       )}

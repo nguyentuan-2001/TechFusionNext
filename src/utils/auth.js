@@ -48,7 +48,7 @@ export const ListProductsByCategory = async (payload) => {
   try {
     const { data, status } = await SERVICES.getProductByCategory(payload.params );
     if (status === 200) {
-      return data.data;
+      return data;
     } else {
       logError(data);
     }
@@ -73,7 +73,7 @@ export const ListCarts = async (payload) => {
   try {
     const { data, status } = await SERVICES.getCarts(payload);
     if (status === 200) {
-      return data.data;
+      return data;
     } else {
       logError(data);
     }
@@ -202,6 +202,32 @@ export const GetProductDetail = async (payload) => {
 export const GetProductRelated = async (payload) => {
   try {
     const { data, status } = await SERVICES.getProductRelated(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const GetGalleries = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.getGalleries(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const GetProductSearch = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.getProductSearch(payload);
     if (status === 200) {
       return data;
     } else {

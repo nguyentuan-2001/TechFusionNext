@@ -57,15 +57,15 @@ export const Cart = () => {
     if (IdCustomer) {
       fetchCart();
     }
-  }, [IdCustomer,searchParams]);
+  }, [IdCustomer, searchParams]);
 
   //total product
-  const arraySum = isListProduct
-    .map((item, index) => item.product_quantity)
+  const arraySum = isListProduct?.data
+    ?.map((item, index) => item.product_quantity)
     .reduce((acc, current) => acc + current, 0);
   //total money
-  const total = isListProduct
-    .map(
+  const total = isListProduct?.data
+    ?.map(
       (product) =>
         (product.product_detail.product_price -
           (product.product_detail.product_price *
@@ -81,7 +81,7 @@ export const Cart = () => {
       [index]: newQuantity,
     });
 
-    const updatedListProduct = [...isListProduct];
+    const updatedListProduct = [...isListProduct?.data];
 
     updatedListProduct[index].product_quantity = newQuantity;
     setProductUpdate(updatedListProduct);
@@ -122,7 +122,7 @@ export const Cart = () => {
     customer_id: IdCustomer,
     order_total: total,
     order_status: 1,
-    order_detail: isListProduct.map((item) => ({
+    order_detail: isListProduct?.data?.map((item) => ({
       product_id: item.product_detail.product_id,
       product_name: item.product_detail.product_name,
       product_price: item.product_detail.product_price,
@@ -131,7 +131,7 @@ export const Cart = () => {
   };
   useEffect(() => {
     setDataSend(data);
-  }, [isListProduct]);
+  }, [isListProduct?.data]);
 
   // lấy ra ngày tháng năm hiện tại
   const currentDate = new Date();
@@ -150,6 +150,14 @@ export const Cart = () => {
     Notification.success("Order successfully!");
   };
 
+  //lấy ra color mà sản phẩm có
+  const getColorName = (colorId) => {
+    const color = isListProduct?.colors?.find(
+      (item) => item.color_id === colorId
+    );
+    return color ? color.color_name : "";
+  };
+
   return (
     <>
       {loading ? (
@@ -157,7 +165,7 @@ export const Cart = () => {
       ) : (
         !isBill &&
         !isCheckout &&
-        isListProduct?.length > 0 && (
+        isListProduct?.data?.length > 0 && (
           <form onSubmit={handleSubmit(onSubmit)} className="block">
             <div className="px-[5rem] py-10 grid lg:grid-cols-10">
               <div
@@ -168,7 +176,7 @@ export const Cart = () => {
                   <p className="font-bold text-3xl">Shopping Cart</p>
                   <p>{arraySum} sản phẩm</p>
                 </div>
-                {isListProduct.map((item, index) => (
+                {isListProduct?.data?.map((item, index) => (
                   <div
                     className="flex items-center justify-between gap-5 my-5"
                     key={index}
@@ -178,11 +186,11 @@ export const Cart = () => {
                       src={item.product_detail.product_image}
                     />
                     <div className="w-[50%]">
-                      {/* <p className="text-[#8e8e8e] font-bold text-xs pb-1">
-                      Window
-                    </p> */}
                       <p className="text-black font-semibold">
                         {TruncateText(item.product_detail.product_name, 70)}
+                      </p>
+                      <p className="text-[#8e8e8e] font-bold text-xs pb-1">
+                        {getColorName(item.color_id)}
                       </p>
                     </div>
                     <InputQuantity
@@ -244,7 +252,7 @@ export const Cart = () => {
       )}
       {}
 
-      {!isBill && !isCheckout && isListProduct?.length === 0 && (
+      {!isBill && !isCheckout && isListProduct?.data?.length === 0 && (
         <>
           <div className="h-64 flex justify-center items-center font-semibold">
             Không có sản phẩm
@@ -304,7 +312,7 @@ export const Cart = () => {
                 </tr>
               </thead>
               <tbody>
-                {isListProduct?.map((item, index) => (
+                {isListProduct?.data?.map((item, index) => (
                   <tr className="border-b border-gray-300" key={index}>
                     <td className="px-4 py-2">
                       {item.product_detail.product_name}

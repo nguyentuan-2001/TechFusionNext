@@ -1,6 +1,8 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { FaAngleDown, FaCheck } from "react-icons/fa6";
+import { FaAngleDoubleDown } from "react-icons/fa";
+import { FaAngleDoubleUp } from "react-icons/fa";
 
 export function Select({ selected, onChange, content }) {
   return (
@@ -8,15 +10,22 @@ export function Select({ selected, onChange, content }) {
       {({ open }) => (
         <>
           <div className="relative mt-2 w-full h-full">
-            <Listbox.Button className="relative h-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm border border-gray-300 border-solid focus:outline-none focus:ring-2 sm:text-sm sm:leading-6 min-w-[150px] min-h-[40px] w-full">
+            <Listbox.Button className="relative h-full cursor-default bg-inherit py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm border-t-0 border-x-0 border-b-[1px] border-solid border-black focus:outline-none sm:text-sm sm:leading-6 min-w-[150px] min-h-[40px] w-full hover:cursor-pointer">
               <span className="flex items-center">
                 <span className="ml-3 block truncate">{selected?.name}</span>
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                <FaAngleDown
-                  className="h-5 w-5 text-gray-400"
-                  aria-hidden="true"
-                />
+                {open ? (
+                  <FaAngleDoubleUp
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <FaAngleDoubleDown
+                    className="h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                )}
               </span>
             </Listbox.Button>
 

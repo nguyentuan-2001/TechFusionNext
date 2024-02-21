@@ -115,11 +115,11 @@
 }
 
 .arrow_right {
-  animation: moveRight 1s ease-in infinite;
+  animation: moveRight 1s linear infinite;
 }
 @keyframes moveRight {
   0% {
-    transform: translateX(0);
+    transform: translateX(0px);
   }
   25% {
     transform: translateX(5px);
@@ -128,6 +128,6 @@
     transform: translateX(10px);
   }
   100% {
-    transform: translateX(0);
+    transform: translateX(0px);
   }
 }
