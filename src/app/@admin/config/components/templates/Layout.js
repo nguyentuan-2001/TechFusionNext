@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { AuthProvider } from "../contexts/AuthContext";
 import "../../styles/globals.css";
 import { Navbar } from "./Navbar";
+import { Header } from "./Header";
 
 export const LayoutAdmin = ({ children }) => {
   const pathname = usePathname();
@@ -13,15 +14,18 @@ export const LayoutAdmin = ({ children }) => {
   return (
     <>
       <AuthProvider>
-          <ToastContainer />
-          {!whiteList.includes(pathname) ? (
-            <>
-              <Navbar />
-              {children}
-            </>
-          ) : (
-            <>{children}</>
-          )}
+        <ToastContainer />
+        {!whiteList.includes(pathname) ? (
+          <>
+            <div className="ml-[150px]">
+              <Header />
+            </div>
+            <Navbar />
+            <div className="ml-[150px]">{children}</div>
+          </>
+        ) : (
+          <>{children}</>
+        )}
       </AuthProvider>
     </>
   );

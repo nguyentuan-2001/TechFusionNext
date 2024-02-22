@@ -2,11 +2,12 @@
     position: fixed;
     top: 1rem;
     left: 1rem;
-    background: #bdbdbd;
+    background: #fff;
     border-radius: 10px;
     padding: 1rem 0;
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.03);
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 6rem);
+    border: 1px solid #bdbdbd;
   }
   .navbar__link {
     position: relative;

@@ -22,6 +22,7 @@
   --white-color: #fbfbfb;
   --white-color-alt: hsl(12, 14%, 93%);
   --dark-color: hsl(300, 100%, 0%);
+  --gray-bg-color: #eceff180;
 }
 
 /* ================= BASE ==================== */
@@ -47,13 +48,12 @@ img {
 body {
   font-family: "Raleway", sans-serif;
   font-size: 1rem;
-  background-color: var(--white-color);
+  background-color: var(--gray-bg-color);
   height: 100vh;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  margin-left: 120px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
 

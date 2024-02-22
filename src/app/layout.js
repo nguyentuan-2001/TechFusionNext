@@ -18,7 +18,16 @@ export default function RootLayout({ user, admin }) {
         type="image/x-icon"
         sizes="16x16"
       />
-      <body className={inter.className} suppressHydrationWarning={true}>
+      <body
+        className={inter.className}
+        suppressHydrationWarning={true}
+        // style={{
+        //   backgroundImage:
+        //     role === "admin"
+        //       ? "linear-gradient(to bottom right, rgba(0, 47, 75, 0.5), rgba(220, 67, 37, 0.3))"
+        //       : null,
+        // }}
+      >
         {role === "admin" ? (
           <LayoutAdmin>{admin}</LayoutAdmin>
         ) : (

@@ -18,7 +18,6 @@ export const Layout = ({ children }) => {
         {!whiteList.includes(pathname) ? (
           <>
             <Header />
-            sdfsdf
             {children}
             <Footer />
           </>

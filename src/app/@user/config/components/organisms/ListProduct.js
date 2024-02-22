@@ -281,7 +281,7 @@ export const AllProducts = ({ category }) => {
               />
             </>
           ) : (
-            <center>No Products</center>
+            <center  className="h-40">No Products</center>
           )}
         </>
       )}
