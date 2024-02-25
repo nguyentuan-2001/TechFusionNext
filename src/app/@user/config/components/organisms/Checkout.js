@@ -267,7 +267,7 @@ export const CheckoutForm = ({
                     placeholder={"Name"}
                   />
                   {errors.name && (
-                    <p className="text-[#FF6868]">{errors.name.message}</p>
+                    <p className="text-[#FF6868] italic">{errors.name.message}</p>
                   )}
                 </div>
                 <div className="w-full">
@@ -280,7 +280,7 @@ export const CheckoutForm = ({
                     placeholder={"PhoneNumber"}
                   />
                   {errors.phonenumber && (
-                    <p className="text-[#FF6868]">
+                    <p className="text-[#FF6868] italic">
                       {errors.phonenumber.message}
                     </p>
                   )}
