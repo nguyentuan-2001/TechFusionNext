@@ -48,3 +48,41 @@ export const UpdateCategories = async (payload) => {
     console.error("Lỗi khi gọi API:", error);
   }
 };
+
+export const PostCategory = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.postCategory(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const DeleteCategory = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.deleteCategory(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+
+export const ListProducts = async () => {
+  try {
+    const { data, status } = await SERVICES.getProducts();
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};

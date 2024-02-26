@@ -4,6 +4,7 @@ import { TableForm } from "../molecules/Table";
 import {
   DeleteCategory,
   ListCategories,
+  ListProducts,
   PostCategory,
   UpdateCategories,
 } from "../../utils/auth";
@@ -11,6 +12,7 @@ import { CATEGORY_STATUS } from "../../common";
 import Link from "next/link";
 import { FaPenToSquare } from "react-icons/fa6";
 import { HiArchiveBoxXMark } from "react-icons/hi2";
+import { AiOutlineFileSearch } from "react-icons/ai";
 
 import { ConfirmDelete } from "../molecules/ConfirmDelete";
 import { ButtonIcon, ButtonModal } from "../atoms/Button";
@@ -21,14 +23,14 @@ import { useForm } from "react-hook-form";
 import { ToggleSwitch } from "../atoms/ToggleSwitch";
 import Notification from "../atoms/Notification";
 
-export const CategoryForm = () => {
+export const ProductForm = () => {
   const [dataAll, setDataAll] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [isNewCategory, setIsNewCategory] = useState(false);
   const [isReload, setIsReload] = useState(false);
   const [dataUpdate, setDataUpdate] = useState();
   const [isNew, setIsNew] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
@@ -41,8 +43,9 @@ export const CategoryForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await ListCategories();
-        setDataAll(result);
+        const result = await ListProducts();
+        setDataAll(result.data);
+        console.log(result.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -65,11 +68,21 @@ export const CategoryForm = () => {
     Notification.success("Updated status successfully!");
   };
 
-  const dataThead = ["No.", "Name", "Description", "Status", "Action"];
+  const dataThead = [
+    "No.",
+    "Name",
+    "Description",
+    "Price",
+    "Sale",
+    "Status",
+    "Gallery",
+    "Detail",
+    "Action",
+  ];
   const dataBody = [];
 
   dataBody.push(
-    dataAll?.map((item, index) => (
+    dataAll?.data?.map((item, index) => (
       <tr key={index} className="border-b border-[#bdbdbd]">
         <td className="py-3 px-5  text-center">
           <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
@@ -77,38 +90,56 @@ export const CategoryForm = () => {
           </p>
         </td>
         <td className="py-3 px-5  text-center ">
-          <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
-            {item.category_name}
+          <p className="antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold flex gap-2 items-center justify-center">
+            <img src={item.product_image} className="h-10 w-auto" />{" "}
+            {item.product_name}
           </p>
         </td>
         <td className="py-3 px-5  text-center ">
           <p className="block antialiased font-sans text-sm leading-normal font-semibold">
-            {item.category_desc}
+            {item.product_content}
+          </p>
+        </td>
+        <td className="py-3 px-5  text-center ">
+          <p className="block antialiased font-sans text-sm leading-normal font-semibold">
+            {item.product_price}
+          </p>
+        </td>
+        <td className="py-3 px-5  text-center ">
+          <p className="block antialiased font-sans text-sm leading-normal text-blue-gray-900 font-semibold">
+            {item.product_sale}
           </p>
         </td>
         <td className="py-3 px-5  text-center ">
           <ToggleSwitch
             onChange={(e) => handleChangeStatus(e, item)}
-            checked={item.category_status === 1 ? true : false}
+            checked={item.product_status === 1 ? true : false}
           />
         </td>
-        <td className="py-3 px-5  text-center  flex justify-center gap-5">
-          <button
-            onClick={() => {
-              setDataUpdate(item);
-              setIsNewCategory(true);
-            }}
-          >
-            <FaPenToSquare className="h-5" />
-          </button>
-          <button
-            onClick={() => {
-              setIsOpen(true);
-              setDataUpdate(item);
-            }}
-          >
-            <HiArchiveBoxXMark className="h-5 hover:text-red" />
-          </button>
+        <td className="py-3 px-5  text-center ">
+          <Link href={"/product/" + item.product_id + "/gallery"}>Upload</Link>
+        </td>
+        <td className="py-3 px-5 ">
+          <p className="text-center flex justify-center">
+            <Link href={"/product/" + item.product_id}>
+              <AiOutlineFileSearch className="h-5 font-bold" />
+            </Link>
+          </p>
+        </td>
+        <td className="py-3 px-5  text-center ">
+          <p className="flex justify-center gap-5">
+            <Link href={"/product/" + item.product_id}>
+              <FaPenToSquare className="h-5" />
+            </Link>
+            <button
+              onClick={() => {
+                setIsOpen(true);
+                setDataUpdate(item);
+              }}
+            >
+              <HiArchiveBoxXMark className="h-5 hover:text-red" />
+            </button>
+          </p>
         </td>
       </tr>
     ))
@@ -224,7 +255,7 @@ export const CategoryForm = () => {
     <>
       <div className="flex justify-end mb-5">
         <ButtonIcon
-          title={"Add Category"}
+          title={"Add Product"}
           icon={<FaPlus />}
           type={"submit"}
           onClick={() => {
@@ -239,7 +270,7 @@ export const CategoryForm = () => {
         />
       </div>
       <TableForm dataThead={dataThead} dataBody={dataBody} />
-      {dataAll?.length === 0 && (
+      {dataAll?.data?.length === 0 && (
         <p className="text-center font-medium py-10">No category</p>
       )}
       <ConfirmDelete

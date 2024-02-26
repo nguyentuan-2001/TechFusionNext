@@ -43,6 +43,12 @@ const SERVICES = {
   getCategories: (payload) => mainRequest(`/category/`, payload, "get"),
   updateCategories: (payload) =>
     mainRequest(`/category/${payload.category_id}/`, payload, "put"),
+  postCategory: (payload) => mainRequest(`/category/`, payload, "post"),
+  deleteCategory: (payload) =>
+    mainRequest(`/category/${payload.category_id}/`, payload, "delete"),
+
+    /* <PRODUCT> */
+  getProducts: (payload) => mainRequest(`/products/`, payload, "get"),
 };
 
 export default SERVICES;
