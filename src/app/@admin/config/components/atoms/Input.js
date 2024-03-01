@@ -79,3 +79,39 @@ export const InputModal = ({
     </>
   );
 };
+
+
+export const InputFormAdmin = ({
+  register,
+  placeholder,
+  type,
+  className,
+  autoComplete,
+  disabled,
+  label,
+  required,
+  errors,
+  name
+}) => {
+  return (
+    <div className="w-full">
+      <p className="text-[#5c677e] font-medium text-sm pb-2">
+        {label} {required && <span className="text-[#ff0f0f]">*</span>}
+      </p>
+      <input
+        type={type}
+        {...register}
+        placeholder={placeholder}
+        className={`w-full h-12 border border-stone-400 border-solid rounded-sm p-1 pl-[20px] text-base  ${
+          disabled ? "text-opacity-80" : "text-opacity-100"
+        } + ${className} `}
+        style={{ "--tw-ring-color": "rgba(0,0,0,0.2)"}}
+        autoComplete={autoComplete}
+        disabled={disabled}
+      />
+      {required  && name && errors[name] && errors[name].type === "required" && (
+        <p className="text-red text-xs italic">{errors[name].message}</p>
+      )}
+    </div>
+  );
+};
