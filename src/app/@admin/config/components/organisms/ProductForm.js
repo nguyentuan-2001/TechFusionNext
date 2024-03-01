@@ -22,6 +22,8 @@ import { InputForm, InputModal } from "../atoms/Input";
 import { useForm } from "react-hook-form";
 import { ToggleSwitch } from "../atoms/ToggleSwitch";
 import Notification from "../atoms/Notification";
+import { UploadImage } from "../molecules/UploadImage";
+import { ConvertFirebase } from "../../utils/firebase";
 
 export const ProductForm = () => {
   const [dataAll, setDataAll] = useState();
@@ -30,6 +32,8 @@ export const ProductForm = () => {
   const [isReload, setIsReload] = useState(false);
   const [dataUpdate, setDataUpdate] = useState();
   const [isNew, setIsNew] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [downloadURLs, setDownloadURLs] = useState([]);
 
   const {
     register,
@@ -45,7 +49,6 @@ export const ProductForm = () => {
       try {
         const result = await ListProducts();
         setDataAll(result.data);
-        console.log(result.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -162,16 +165,18 @@ export const ProductForm = () => {
   };
 
   const handleCreate = async (data) => {
-    const payload = {
-      category_name: data.name,
-      category_desc: data.description,
-      category_status: 1,
-    };
-    await PostCategory(payload);
+    // const payload = {
+    //   category_name: data.name,
+    //   category_desc: data.description,
+    //   category_status: 1,
+    // };
+    // await PostCategory(payload);
 
-    await handleCloseModal();
-    setIsReload(!isReload);
-    Notification.success("Create category successfully!");
+    // await handleCloseModal();
+    // setIsReload(!isReload);
+    // Notification.success("Create category successfully!");
+    const urls = await ConvertFirebase({ images: selectedFiles });
+    console.log(urls);
   };
 
   const handleUpdate = async (data) => {
@@ -190,34 +195,66 @@ export const ProductForm = () => {
   const ContentModal = (
     <form onSubmit={handleSubmit(isNew ? handleCreate : handleUpdate)}>
       <p className="uppercase text-center mb-5 font-bold border-b-2 pb-4">
-        {isNew ? "Create" : "Update"} Category
+        {isNew ? "Create" : "Update"} Product
       </p>
       <div className="flex gap-5">
         <div>
           <InputModal
-            register={register("name", {
+            register={register("product_name", {
               required: "Name cannot be left blank",
             })}
             type="text"
-            placeholder={"Name"}
-            label={"Category Name"}
+            placeholder={"Product Name"}
+            label={"Product Name"}
             required={true}
           />
-          {errors.name && errors.name.type === "required" && (
+          {errors.product_name && errors.product_name.type === "required" && (
             <span className="text-red text-xs italic">
-              {errors.name.message}
+              {errors.product_name.message}
             </span>
           )}
         </div>
         <div>
           <InputModal
-            register={register("description")}
+            register={register("product_content")}
             type="text"
-            placeholder={"Description"}
-            label={"Category Description"}
+            placeholder={"Product Content"}
+            label={"Product Content"}
           />
         </div>
       </div>
+      <div className="flex gap-5 my-5">
+        <div>
+          <InputModal
+            register={register("product_sale")}
+            type="text"
+            placeholder={"Product Sale"}
+            label={"Product Sale"}
+          />
+        </div>
+        <div>
+          <InputModal
+            register={register("product_price")}
+            type="text"
+            placeholder={"Product Price"}
+            label={"Product Price"}
+            required={true}
+          />
+          {errors.product_price && errors.product_price.type === "required" && (
+            <span className="text-red text-xs italic">
+              {errors.product_price.message}
+            </span>
+          )}
+        </div>
+      </div>
+
+      <p className="text-[#5c677e] font-medium text-sm pb-2">Product Image</p>
+      <UploadImage
+        lengthImage={1}
+        selectedFiles={selectedFiles}
+        setSelectedFiles={setSelectedFiles}
+      />
+
       <div className="flex justify-end mt-5 gap-4">
         <ButtonModal
           title={"Cancel"}

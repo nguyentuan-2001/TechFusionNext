@@ -53,7 +53,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="navbar bg-white shadow-sm z-5 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100">
+    <nav className="navbar bg-white shadow-sm z-10 rounded-xl transition-transform duration-300 xl:translate-x-0 border border-blue-gray-100">
       <ul className="navbar__menu">
         {listCategory.map((item, index) => (
           <li className="navbar__item" key={index}>

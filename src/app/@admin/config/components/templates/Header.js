@@ -7,7 +7,7 @@ export const Header = () => {
   const admin = JSON.parse(localStorage.getItem("admin"));
   return (
     <>
-      <div className="flex items-center justify-between py-5 pr-5">
+      <div className="flex items-center justify-between py-5 pr-7">
         <div className="w-full text-sm">
           Dashboard/ <span className="text-black">Home</span>
         </div>
