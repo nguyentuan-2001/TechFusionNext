@@ -17,11 +17,11 @@ export const LayoutAdmin = ({ children }) => {
         <ToastContainer />
         {!whiteList.includes(pathname) ? (
           <>
-            <div className="ml-[200px]">
+            <div className="ml-[150px]">
               <Header />
             </div>
             <Navbar />
-            <div className="ml-[200px]">{children}</div>
+            <div className="ml-[150px] mr-10">{children}</div>
           </>
         ) : (
           <>{children}</>
