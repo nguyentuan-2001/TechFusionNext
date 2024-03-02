@@ -23,11 +23,12 @@ export const ButtonModal = ({
   border,
   textBlack,
   className,
+  icon,
 }) => {
   return (
     <button
       className={
-        "rounded-[8px] font-bold  leading-relaxed text-center flex justify-center items-center " +
+        "rounded-[8px] font-bold  leading-relaxed text-center flex justify-center items-center gap-2 " +
         `${buttonLg ? " p-[23px] h-[64px]" : " p-[12px] h-[40px]"}` +
         ` ${className}` +
         `${sizeSm ? " text-sm" : " text-base"}` +
@@ -39,7 +40,7 @@ export const ButtonModal = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {title}
+      {icon} {title}
     </button>
   );
 };

@@ -49,7 +49,7 @@ const SERVICES = {
 
     /* <PRODUCT> */
   getProducts: (payload) => mainRequest(`/products/`, payload, "get"),
-  postProducts: (payload) => mainRequest(`/products/`, payload, "post"),
+  postProduct: (payload) => mainRequest(`/products/`, payload, "post"),
 };
 
 export default SERVICES;

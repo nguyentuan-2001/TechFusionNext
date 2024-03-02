@@ -107,7 +107,6 @@ const Product = ({ data }) => {
               <p>DESKTOP</p>
             </div>
             <div className="w-[60%]">
-              <p>{data.product_detail?.product_cpu}</p>
               <p>{data.product_detail?.product_ram}</p>
               <p>{data.product_detail?.hard_drive}</p>
               <p>{data.product_detail?.product_card}</p>

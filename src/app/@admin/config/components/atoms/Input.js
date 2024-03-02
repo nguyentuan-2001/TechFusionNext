@@ -80,7 +80,6 @@ export const InputModal = ({
   );
 };
 
-
 export const InputFormAdmin = ({
   register,
   placeholder,
@@ -91,11 +90,11 @@ export const InputFormAdmin = ({
   label,
   required,
   errors,
-  name
+  name,
 }) => {
   return (
     <div className="w-full">
-      <p className="text-[#5c677e] font-medium text-sm pb-2">
+      <p className="text-[#3f4657] font-medium text-sm pb-2">
         {label} {required && <span className="text-[#ff0f0f]">*</span>}
       </p>
       <input
@@ -105,11 +104,11 @@ export const InputFormAdmin = ({
         className={`w-full h-12 border border-stone-400 border-solid rounded-sm p-1 pl-[20px] text-base  ${
           disabled ? "text-opacity-80" : "text-opacity-100"
         } + ${className} `}
-        style={{ "--tw-ring-color": "rgba(0,0,0,0.2)"}}
+        style={{ "--tw-ring-color": "rgba(0,0,0,0.2)" }}
         autoComplete={autoComplete}
         disabled={disabled}
       />
-      {required  && name && errors[name] && errors[name].type === "required" && (
+      {required && name && errors[name] && errors[name].type === "required" && (
         <p className="text-red text-xs italic">{errors[name].message}</p>
       )}
     </div>

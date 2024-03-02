@@ -86,3 +86,15 @@ export const ListProducts = async () => {
     console.error("Lỗi khi gọi API:", error);
   }
 };
+
+export const PostProduct = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.postProduct(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};

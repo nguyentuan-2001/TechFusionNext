@@ -19,7 +19,7 @@ export const UploadImage = ({
     // Kiểm tra số lượng ảnh đã chọn với số lượng tối đa cho phép
     if (lengthImage && selectedFiles.length > 0) {
       Notification.error(`You can only upload ${lengthImage} image at a time.`);
-      //   return;
+      return;
     }
 
     const baseArray = [];
@@ -60,9 +60,10 @@ export const UploadImage = ({
       <div
         {...getRootProps()}
         style={{
-          border: "2px dashed #ccc",
+          border: "2px dashed gray",
           padding: "15px",
           cursor: "pointer",
+          marginBottom: "10px",
         }}
       >
         <input {...getInputProps()} />
@@ -76,7 +77,6 @@ export const UploadImage = ({
           return (
             <div
               style={{
-                marginTop: "10px",
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
