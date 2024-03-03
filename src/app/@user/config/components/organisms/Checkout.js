@@ -549,3 +549,7 @@ function CheckIcon(props) {
     </svg>
   );
 }
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}

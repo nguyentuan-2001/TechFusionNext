@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { TableForm } from "../molecules/Table";
 import {
   DeleteCategory,
+  DeleteProduct,
   ListCategories,
   ListProducts,
   PostCategory,
@@ -24,16 +25,15 @@ import { ToggleSwitch } from "../atoms/ToggleSwitch";
 import Notification from "../atoms/Notification";
 import { UploadImage } from "../molecules/UploadImage";
 import { ConvertFirebase } from "../../utils/firebase";
+import { useRouter } from "next/navigation";
 
 export const ProductForm = () => {
   const [dataAll, setDataAll] = useState();
   const [isOpen, setIsOpen] = useState(false);
-  const [isNewCategory, setIsNewCategory] = useState(false);
   const [isReload, setIsReload] = useState(false);
   const [dataUpdate, setDataUpdate] = useState();
-  const [isNew, setIsNew] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [downloadURLs, setDownloadURLs] = useState([]);
+
+  const router = useRouter();
 
   const {
     register,
@@ -79,7 +79,6 @@ export const ProductForm = () => {
     "Sale",
     "Status",
     "Gallery",
-    "Detail",
     "Action",
   ];
   const dataBody = [];
@@ -122,13 +121,6 @@ export const ProductForm = () => {
         <td className="py-3 px-5  text-center ">
           <Link href={"/product/" + item.product_id + "/gallery"}>Upload</Link>
         </td>
-        <td className="py-3 px-5 ">
-          <p className="text-center flex justify-center">
-            <Link href={"/product/" + item.product_id}>
-              <AiOutlineFileSearch className="h-5 font-bold" />
-            </Link>
-          </p>
-        </td>
         <td className="py-3 px-5  text-center ">
           <p className="flex justify-center gap-5">
             <Link href={"/product/" + item.product_id}>
@@ -151,142 +143,13 @@ export const ProductForm = () => {
   const handleDelete = async () => {
     setIsOpen(false);
     const payload = {
-      category_id: dataUpdate.category_id,
+      product_id: dataUpdate.product_id,
     };
-    await DeleteCategory(payload);
+    await DeleteProduct(payload);
 
     setIsReload(!isReload);
     Notification.success("Delete category successfully!");
   };
-
-  const handleCloseModal = () => {
-    setIsNew(false);
-    setIsNewCategory(false);
-  };
-
-  const handleCreate = async (data) => {
-    // const payload = {
-    //   category_name: data.name,
-    //   category_desc: data.description,
-    //   category_status: 1,
-    // };
-    // await PostCategory(payload);
-
-    // await handleCloseModal();
-    // setIsReload(!isReload);
-    // Notification.success("Create category successfully!");
-    const urls = await ConvertFirebase({ images: selectedFiles });
-    console.log(urls);
-  };
-
-  const handleUpdate = async (data) => {
-    const payload = {
-      category_id: dataUpdate.category_id,
-      category_name: data.name,
-      category_desc: data.description,
-    };
-    await UpdateCategories(payload);
-
-    handleCloseModal();
-    setIsReload(!isReload);
-    Notification.success("Update category successfully!");
-  };
-
-  const ContentModal = (
-    <form onSubmit={handleSubmit(isNew ? handleCreate : handleUpdate)}>
-      <p className="uppercase text-center mb-5 font-bold border-b-2 pb-4">
-        {isNew ? "Create" : "Update"} Product
-      </p>
-      <div className="flex gap-5">
-        <div>
-          <InputModal
-            register={register("product_name", {
-              required: "Name cannot be left blank",
-            })}
-            type="text"
-            placeholder={"Product Name"}
-            label={"Product Name"}
-            required={true}
-          />
-          {errors.product_name && errors.product_name.type === "required" && (
-            <span className="text-red text-xs italic">
-              {errors.product_name.message}
-            </span>
-          )}
-        </div>
-        <div>
-          <InputModal
-            register={register("product_content")}
-            type="text"
-            placeholder={"Product Content"}
-            label={"Product Content"}
-          />
-        </div>
-      </div>
-      <div className="flex gap-5 my-5">
-        <div>
-          <InputModal
-            register={register("product_sale")}
-            type="text"
-            placeholder={"Product Sale"}
-            label={"Product Sale"}
-          />
-        </div>
-        <div>
-          <InputModal
-            register={register("product_price")}
-            type="text"
-            placeholder={"Product Price"}
-            label={"Product Price"}
-            required={true}
-          />
-          {errors.product_price && errors.product_price.type === "required" && (
-            <span className="text-red text-xs italic">
-              {errors.product_price.message}
-            </span>
-          )}
-        </div>
-      </div>
-
-      <p className="text-[#5c677e] font-medium text-sm pb-2">Product Image</p>
-      <UploadImage
-        lengthImage={1}
-        selectedFiles={selectedFiles}
-        setSelectedFiles={setSelectedFiles}
-      />
-
-      <div className="flex justify-end mt-5 gap-4">
-        <ButtonModal
-          title={"Cancel"}
-          type={"button"}
-          sizeSm={true}
-          onClick={() => handleCloseModal()}
-          textBlack={true}
-          className={"border-black border-[1px] bg-slate-300 w-20"}
-        />
-        <ButtonModal
-          title={isNew ? "Create" : "Update"}
-          type={"submit"}
-          sizeSm={true}
-          className={"w-20 bg-blue-500"}
-        />
-      </div>
-    </form>
-  );
-
-  useEffect(() => {
-    if (isNew) {
-      reset({
-        name: null,
-        description: null,
-      });
-    } else {
-      reset({
-        name: dataUpdate?.category_name || "",
-        description: dataUpdate?.category_desc || "",
-      });
-    }
-  }, [dataUpdate, isNew]);
 
   return (
     <>
@@ -296,22 +159,16 @@ export const ProductForm = () => {
           icon={<FaPlus />}
           type={"submit"}
           onClick={() => {
-            setIsNewCategory(true);
-            setIsNew(true);
+            router.push("/product/create");
           }}
-        />
-        <Modal
-          isOpen={isNewCategory}
-          setIsOpen={handleCloseModal}
-          content={ContentModal}
         />
       </div>
       <TableForm dataThead={dataThead} dataBody={dataBody} />
       {dataAll?.data?.length === 0 && (
-        <p className="text-center font-medium py-10">No category</p>
+        <p className="text-center font-medium py-10">No product</p>
       )}
       <ConfirmDelete
-        title={"Do you want to delete the category?"}
+        title={"Do you want to delete the product?"}
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         onClick={handleDelete}

@@ -182,49 +182,54 @@ export const Cart = () => {
                   <p className="font-bold text-3xl">Shopping Cart</p>
                   <p>{arraySum} sản phẩm</p>
                 </div>
-                {isListProduct?.data?.map((item, index) => (
-                  <div
-                    className="flex items-center justify-between gap-5 my-5"
-                    key={index}
-                  >
-                    <img
-                      className="w-16 h-16"
-                      src={item.product_detail.product_image}
-                    />
-                    <div className="w-[50%]">
-                      <p className="text-black font-semibold">
-                        {TruncateText(item.product_detail.product_name, 70)}
-                      </p>
-                      <p className="text-[#8e8e8e] font-bold text-xs pb-1">
-                        {getColorName(item.color_id)}
-                      </p>
-                    </div>
-                    <InputQuantity
-                      quantity={item.product_quantity}
-                      setQuantity={(newQuantity) =>
-                        handleQuantityChange(index, newQuantity)
-                      }
-                      maxQuantity={
-                        item.product_detail.product_inventory_quantity
-                      }
-                    />
-
-                    <p>
-                      {FormatPrice(
-                        item.product_detail.product_price -
-                          (item.product_detail.product_price *
-                            item.product_detail.product_sale) /
-                            100
-                      )}
-                    </p>
+                {isListProduct?.data?.map((item, index) => {
+                  // lấy ra quantity với màu đã chọn
+                  const quantityColor = item?.product_colors?.find(
+                    (item) => item.color_id === item.color_id
+                  )?.quantity;
+                  
+                  return (
                     <div
-                      className="cursor-pointer p-3 rounded-full hover:bg-orange hover:text-white"
-                      onClick={() => deleteProduct(item.product_id)}
+                      className="flex items-center justify-between gap-5 my-5"
+                      key={index}
                     >
-                      <CgClose />
+                      <img
+                        className="w-16 h-16"
+                        src={item.product_detail.product_image}
+                      />
+                      <div className="w-[50%]">
+                        <p className="text-black font-semibold">
+                          {TruncateText(item.product_detail.product_name, 70)}
+                        </p>
+                        <p className="text-[#8e8e8e] font-bold text-xs pb-1">
+                          {getColorName(item.color_id)}
+                        </p>
+                      </div>
+                      <InputQuantity
+                        quantity={item.product_quantity}
+                        setQuantity={(newQuantity) =>
+                          handleQuantityChange(index, newQuantity)
+                        }
+                        maxQuantity={quantityColor}
+                      />
+
+                      <p>
+                        {FormatPrice(
+                          item.product_detail.product_price -
+                            (item.product_detail.product_price *
+                              item.product_detail.product_sale) /
+                              100
+                        )}
+                      </p>
+                      <div
+                        className="cursor-pointer p-3 rounded-full hover:bg-orange hover:text-white"
+                        onClick={() => deleteProduct(item.product_id)}
+                      >
+                        <CgClose />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
                 <div className="flex justify-end items-end pt-5">
                   <Button
                     title={"UPDATE QUANTITY"}
@@ -287,8 +292,8 @@ export const Cart = () => {
                   className="w-16"
                 />
                 <div>
-                  <p>KENTA</p>
-                  <p>kenta.com</p>
+                  <p>TGDD</p>
+                  <p>thegioididong.com</p>
                 </div>
               </div>
               <div className="flex flex-col">
