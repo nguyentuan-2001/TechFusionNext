@@ -36,7 +36,7 @@ export const SigninForm = () => {
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="max-w-md mx-auto">
             <div className="flex items-center space-x-5 justify-center text-3xl font-bold">
-              KENTA
+              TGDD
             </div>
             <div className="mt-5">
               <label

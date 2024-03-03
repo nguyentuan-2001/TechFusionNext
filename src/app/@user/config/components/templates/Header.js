@@ -21,7 +21,7 @@ import {
 } from "react-icons/fa6";
 import { ImHome } from "react-icons/im";
 import { ListCategories } from "../../utils/auth";
-
+import { FiSettings } from "react-icons/fi";
 
 export const Header = () => {
   const storedIdCustomer = Cookies.get("id_customer");
@@ -123,12 +123,17 @@ export const Header = () => {
     }
   }, [dataAll]);
 
+  const changeRole = () => {
+    localStorage.setItem("role", "admin");
+    router.refresh();
+  };
+
   return (
     <>
       <header className="header" id="header">
         <nav className="nav container">
           <Link href="/" className="nav__logo">
-            KENTA
+            <img src="/logo.png" className="h-[88px]" />
           </Link>
 
           <div
@@ -180,6 +185,10 @@ export const Header = () => {
 
           <div className="nav__actions">
             {/* Search button */}
+            <span onClick={changeRole} id="search-btn">
+              <FiSettings />
+            </span>
+
             <span onClick={toggleSearch} id="search-btn">
               <FaSearch />
             </span>

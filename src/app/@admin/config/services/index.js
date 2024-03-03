@@ -50,6 +50,8 @@ const SERVICES = {
     /* <PRODUCT> */
   getProducts: (payload) => mainRequest(`/products/`, payload, "get"),
   postProduct: (payload) => mainRequest(`/products/`, payload, "post"),
+  deleteProduct: (payload) =>
+    mainRequest(`/products/${payload.product_id}/`, payload, "delete"),
 };
 
 export default SERVICES;

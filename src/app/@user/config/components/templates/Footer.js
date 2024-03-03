@@ -44,7 +44,7 @@ export const Footer = () => {
         </div>
         <div className="end-footer">
           <div className="copyright">
-            copyright © 2024 • <b>KENTA</b>
+            copyright © 2024 • <b>Nguyen Thi Phuong</b>
           </div>
         </div>
       </footer>

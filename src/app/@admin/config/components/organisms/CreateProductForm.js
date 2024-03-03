@@ -2,14 +2,17 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { ButtonModal } from "../atoms/Button";
-import { InputFormAdmin, InputModal } from "../atoms/Input";
+import { InputFormAdmin, InputModal, TextAreaBlack } from "../atoms/Input";
 import { UploadImage } from "../molecules/UploadImage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UploadInfoImage } from "../molecules/UploadInfoImage";
 import { FaPlusCircle } from "react-icons/fa";
 import { ConvertFirebase } from "../../utils/firebase";
 import { Select } from "../atoms/Select";
 import { ComboBoxSelect } from "../atoms/ComboBoxSelect";
+import { ListCategories, PostProduct } from "../../utils/auth";
+import Notification from "../atoms/Notification";
+import { useRouter } from "next/navigation";
 
 const CreateProductForm = ({ isNew = true }) => {
   const {
@@ -21,8 +24,29 @@ const CreateProductForm = ({ isNew = true }) => {
     formState: { errors },
   } = useForm();
 
-  const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedFilesInfo, setSelectedFilesInfo] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState();
+  const [dataCategory, setDataCategory] = useState();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await ListCategories();
+        setDataCategory(result);
+        setSelectedCategory(result[0].category_name);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const allNameCatogory = dataCategory?.map(
+    (category) => category.category_name
+  );
 
   function convertColors(data) {
     if (data) {
@@ -43,42 +67,39 @@ const CreateProductForm = ({ isNew = true }) => {
   }
 
   const handleCreate = async (data) => {
-    let urlGalery;
-    if (selectedFiles) {
-      urlGalery = await ConvertFirebase({ images: selectedFiles });
+    let urlInfo;
+    if (selectedFilesInfo) {
+      urlInfo = await ConvertFirebase({ images: selectedFilesInfo });
     }
+
     const colors = convertColors(data);
-    console.log(data);
+
+    const idCategory = dataCategory.find(
+      (e) => e.category_name === selectedCategory
+    )?.category_id;
 
     const dataSend = {
-      category_id: 1,
-      product_sale: 10,
-      product_name: "Test Product",
-      product_price: 100,
-      product_content: "Product description",
-      product_image: "test_image.jpg",
+      category_id: idCategory,
+      product_sale: Number(data.product_sale) || "",
+      product_name: data.product_name,
+      product_price: Number(data.product_price),
+      product_content: data?.product_content,
+      product_image: urlInfo[0] || "",
       product_status: 1,
-      product_ram: "8GB",
-      hard_drive: "1TB",
-      product_card: "NVIDIA GeForce GTX 1660",
-      desktop: "Gaming",
-      colors: [
-        {
-          color_name: "Red",
-          quantity: 50,
-        },
-        {
-          color_name: "Black",
-          quantity: 3,
-        },
-      ],
+      product_ram: data.product_ram || "",
+      hard_drive: data.hard_drive || "",
+      product_card: data.product_card || "",
+      desktop: data.desktop || "",
+      colors: colors,
     };
+    await PostProduct(dataSend);
+    Notification.success("Add product successfully!");
+    handleClose();
   };
   const handleUpdate = async (data) => {};
 
-  const handleCloseModal = () => {
-    setIsNew(false);
-    setIsNewCategory(false);
+  const handleClose = () => {
+    router.push("/product");
   };
 
   const [forms, setForms] = useState([{}]);
@@ -90,7 +111,7 @@ const CreateProductForm = ({ isNew = true }) => {
   return (
     <>
       <form onSubmit={handleSubmit(isNew ? handleCreate : handleUpdate)}>
-        <p className="uppercase text-center mb-5 font-bold border-b-2 pb-4">
+        <p className="uppercase text-center mb-5 font-bold border-b-2 border-blue-400 pb-4">
           {isNew ? "Create" : "Update"} Product
         </p>
 
@@ -104,22 +125,32 @@ const CreateProductForm = ({ isNew = true }) => {
           </div>
           <div className="w-[85%]">
             <div className="flex gap-5">
-              <Controller
-                methods={methods}
-                name="province"
-                control={control}
-                rules={{ required: "Province is required" }}
-                render={({ field }) => {
-                  const { onChange, value, ref } = field;
-                  return (
-                    <ComboBoxSelect/>
-                  );
-                }}
-              />
+              <div className="w-full">
+                <p className="text-[#3f4657] font-medium text-sm pb-2">
+                  Caregory <span className="text-[#ff0f0f]">*</span>
+                </p>
+                <Controller
+                  methods={methods}
+                  name="province"
+                  control={control}
+                  render={({ field }) => {
+                    const { onChange, value, ref } = field;
+                    return (
+                      <ComboBoxSelect
+                        data={allNameCatogory}
+                        selected={selectedCategory}
+                        setSelected={setSelectedCategory}
+                      />
+                    );
+                  }}
+                />
 
-              {errors.province && (
-                <p className="text-[#FF6868] pb-3">{errors.province.message}</p>
-              )}
+                {errors.province && (
+                  <p className="text-[#FF6868] pb-3">
+                    {errors.province.message}
+                  </p>
+                )}
+              </div>
 
               <InputFormAdmin
                 register={register("product_name", {
@@ -131,12 +162,6 @@ const CreateProductForm = ({ isNew = true }) => {
                 required={true}
                 errors={errors}
                 name={"product_name"}
-              />
-              <InputFormAdmin
-                register={register("product_content")}
-                type="text"
-                placeholder={"Product content"}
-                label={"Product Content"}
               />
               <InputFormAdmin
                 register={register("product_sale")}
@@ -182,6 +207,15 @@ const CreateProductForm = ({ isNew = true }) => {
                 label={"Desktop"}
               />
             </div>
+
+            <p className="text-[#3f4657] font-medium text-sm pb-2">
+              Product Content
+            </p>
+            <TextAreaBlack
+              register={register("product_content")}
+              placeholder={"Product Content"}
+              className={"h-32"}
+            />
           </div>
         </div>
 
@@ -230,21 +264,12 @@ const CreateProductForm = ({ isNew = true }) => {
           </div>
         </div>
 
-        <div className="p-10 rounded-lg bg-slate-300 mt-10">
-          <p className="text-[#5c677e] font-medium text-sm pb-2">
-            Product Galleries
-          </p>
-          <UploadImage
-            selectedFiles={selectedFiles}
-            setSelectedFiles={setSelectedFiles}
-          />
-        </div>
         <div className="flex justify-end mt-5 gap-4">
           <ButtonModal
             title={"Cancel"}
             type={"button"}
             sizeSm={true}
-            onClick={() => handleCloseModal()}
+            onClick={() => handleClose()}
             textBlack={true}
             className={"border-black border-[1px] bg-slate-300 w-20"}
           />

@@ -6,6 +6,7 @@ export const InputQuantity = ({ quantity, setQuantity, maxQuantity }) => {
   const handleIncrement = () => {
     if (quantity < maxQuantity) {
       setQuantity(quantity + 1);
+      console.log(213);
     }
   };
 
