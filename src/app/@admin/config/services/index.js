@@ -52,6 +52,12 @@ const SERVICES = {
   postProduct: (payload) => mainRequest(`/products/`, payload, "post"),
   deleteProduct: (payload) =>
     mainRequest(`/products/${payload.product_id}/`, payload, "delete"),
+
+    /* <GALLERIES> */
+  listGalleries: (payload) => mainRequest(`/galleries/${payload.product_id}/`, payload, "get"),
+  postGalleries: (payload) => mainRequest(`/galleries/multiple/`, payload, "post"),
+  deleteGallery: (payload) =>
+    mainRequest(`/galleries/${payload.gallery_id}/`, payload, "delete"),
 };
 
 export default SERVICES;

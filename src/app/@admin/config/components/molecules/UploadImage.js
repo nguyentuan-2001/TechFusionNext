@@ -72,7 +72,7 @@ export const UploadImage = ({
           <p>(*jpg, *jpeg, *png, *gif)</p>
         </div>
       </div>
-      <div style={{ maxHeight: "100px", overflow: "auto" }}>
+      <div style={{ maxHeight: "150px", overflow: "auto" }}>
         {selectedFiles.map((file, index) => {
           return (
             <div
