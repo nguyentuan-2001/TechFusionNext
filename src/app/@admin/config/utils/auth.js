@@ -110,3 +110,40 @@ export const DeleteProduct = async (payload) => {
     console.error("Lỗi khi gọi API:", error);
   }
 };
+
+export const ListGalleries = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.listGalleries(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const PostGalleries = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.postGalleries(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const DeleteGallery = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.deleteGallery(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
