@@ -9,6 +9,7 @@ import {
   FcSurvey,
   FcViewDetails,
 } from "react-icons/fc";
+import { BiSolidDiscount } from "react-icons/bi";
 import { usePathname } from "next/navigation";
 
 export const Navbar = () => {
@@ -48,6 +49,11 @@ export const Navbar = () => {
     {
       name: "News",
       icon: <FcNews className="text-3xl" />,
+      link: "/news",
+    },
+    {
+      name: "Coupon",
+      icon: <BiSolidDiscount className="text-3xl" />,
       link: "/news",
     },
   ];

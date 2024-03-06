@@ -47,17 +47,57 @@ const SERVICES = {
   deleteCategory: (payload) =>
     mainRequest(`/category/${payload.category_id}/`, payload, "delete"),
 
-    /* <PRODUCT> */
+  /* <PRODUCT> */
   getProducts: (payload) => mainRequest(`/products/`, payload, "get"),
   postProduct: (payload) => mainRequest(`/products/`, payload, "post"),
   deleteProduct: (payload) =>
     mainRequest(`/products/${payload.product_id}/`, payload, "delete"),
+  getProductDetail: (payload) =>
+    mainRequest(`/products/detail/${payload.product_id}/`, null, "get"),
+  updateProduct: (payload) =>
+    mainRequest(`/products/${payload.product_id}/`, payload, "put"),
+  updateProductStatus: (payload) =>
+    mainRequest(
+      `/products/updateStatus/${payload.product_id}/`,
+      payload,
+      "put"
+    ),
 
-    /* <GALLERIES> */
-  listGalleries: (payload) => mainRequest(`/galleries/${payload.product_id}/`, payload, "get"),
-  postGalleries: (payload) => mainRequest(`/galleries/multiple/`, payload, "post"),
+  /* <GALLERIES> */
+  listGalleries: (payload) =>
+    mainRequest(`/galleries/${payload.product_id}/`, payload, "get"),
+  postGalleries: (payload) =>
+    mainRequest(`/galleries/multiple/`, payload, "post"),
   deleteGallery: (payload) =>
     mainRequest(`/galleries/${payload.gallery_id}/`, payload, "delete"),
+
+  /* <ORDER> */
+  getOrders: (payload) => mainRequest(`/order/`, payload, "get"),
+  updateOrderStatus: (payload) =>
+    mainRequest(`/order/${payload.order_id}/`, payload, "put"),
+
+  /* <CUSTOMER> */
+  getCustomer: (payload) => mainRequest(`/customer/`, payload, "get"),
+  deleteCustomer: (payload) =>
+    mainRequest(`/customer/${payload.customer_id}/`, payload, "delete"),
+
+  /* <NEWS> */
+  getNews: (payload) => mainRequest(`/news/`, payload, "get"),
+  deleteNews: (payload) =>
+    mainRequest(`/news/${payload.news_id}/`, payload, "delete"),
+  getNewsDetail: (payload) =>
+    mainRequest(`/news/${payload.news_id}/`, payload, "get"),
+  postNews: (payload) => mainRequest(`/news/`, payload, "post"),
+  updateNews: (payload) =>
+    mainRequest(`/news/${payload.news_id}/`, payload, "put"),
+
+  /* <COUPON> */
+  getCoupon: (payload) => mainRequest(`/coupon/`, payload, "get"),
+  deleteCoupon: (payload) =>
+    mainRequest(`/coupon/${payload.coupon_id}/`, payload, "delete"),
+  postCoupon: (payload) => mainRequest(`/coupon/`, payload, "post"),
+  updateCoupon: (payload) =>
+    mainRequest(`/coupon/${payload.coupon_id}/`, payload, "put"),
 };
 
 export default SERVICES;

@@ -2,6 +2,7 @@ import Cookies from "js-cookie";
 import Notification from "../components/atoms/Notification";
 import SERVICES from "../services";
 
+/* <ADMIN> */
 export const LoginAdmin = async (payload) => {
   try {
     const { data, status } = await SERVICES.loginAdmin(payload);
@@ -23,6 +24,7 @@ export const LoginAdmin = async (payload) => {
   }
 };
 
+/* <CATEGORY> */
 export const ListCategories = async () => {
   try {
     const { data, status } = await SERVICES.getCategories();
@@ -73,7 +75,7 @@ export const DeleteCategory = async (payload) => {
   }
 };
 
-
+/* <PRODUCT> */
 export const ListProducts = async () => {
   try {
     const { data, status } = await SERVICES.getProducts();
@@ -111,6 +113,46 @@ export const DeleteProduct = async (payload) => {
   }
 };
 
+export const GetProductDetail = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.getProductDetail(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const UpdateProducts = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.updateProduct(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const UpdateProductsStatus = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.updateProductStatus(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+/* <GALLERY> */
 export const ListGalleries = async (payload) => {
   try {
     const { data, status } = await SERVICES.listGalleries(payload);
@@ -140,6 +182,173 @@ export const DeleteGallery = async (payload) => {
   try {
     const { data, status } = await SERVICES.deleteGallery(payload);
     if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+/* <ORDER> */
+export const GetOrders = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.getOrders(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+export const UpdateOrderStatus = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.updateOrderStatus(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+/* <ORDER> */
+export const GetCustomers = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.getCustomer(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const DeleteCustomer = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.deleteCustomer(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+/* <NEWS> */
+export const GetNews = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.getNews(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const GetNewsDetail = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.getNewsDetail(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const DeleteNews = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.deleteNews(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const PostNews = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.postNews(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const UpdateNews = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.updateNews(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+/* <COUPON> */
+export const GetCoupon = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.getCoupon(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const DeleteCoupon = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.deleteCoupon(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const PostCoupon = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.postCoupon(payload);
+    if (status === 200) {
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const UpdateCoupon = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.updateCoupon(payload);
+    if (status === 200) {
+      return data;
     } else {
       logError(data);
     }

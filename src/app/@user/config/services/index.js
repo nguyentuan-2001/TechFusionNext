@@ -39,9 +39,11 @@ const SERVICES = {
   /* <CUSTOMERS> */
   loginCustomer: (payload) => mainRequest(`/customer/login/`, payload, "post"),
   signupCustomer: (payload) => mainRequest(`/customer/`, payload, "post"),
+  getCustomerDetail: (payload) =>
+    mainRequest(`/customer/detail/${payload.customer_id}/`, payload, "get"),
 
   /* <PRODUCTS> */
-  getProducts: (payload) => mainRequest(`/products/`, payload, "get"),
+  getProducts: (payload) => mainRequest(`/allproducts/`, payload, "get"),
   // allProducts: (payload) => mainRequest(`/products/pagination/`, payload, "get"),
   getProductByCategory: (payload) =>
     mainRequest(`/products/${payload.id}/`, null, "get"),
@@ -55,6 +57,10 @@ const SERVICES = {
     ),
   getProductSearch: (payload) =>
     mainRequest(`/products/search/`, payload, "get"),
+  getProductLatest: (payload) =>
+    mainRequest(`/products/latest/`, payload, "get"),
+  getProductRandom: (payload) =>
+    mainRequest(`/products/random/`, payload, "get"),
 
   /* <CARTS> */
   buyProduct: (payload) => mainRequest(`/carts/`, payload, "post"),
@@ -81,11 +87,19 @@ const SERVICES = {
     mainRequest(`/get-wards/${payload.district_id}/`, payload, "get"),
 
   /* <ORDER> */
-  orderProduct: (payload) => mainRequest(`/order/`, payload, "post"),
+  postOrderProduct: (payload) => mainRequest(`/order/`, payload, "post"),
 
   /* <GALLERY> */
   getGalleries: (payload) =>
     mainRequest(`/galleries/${payload.product_id}/`, payload, "get"),
+
+  /* <NEWS> */
+  getAllNews: (payload) => mainRequest(`/allNews/`, payload, "get"),
+  getNewsDetail: (payload) =>
+    mainRequest(`/news/${payload.news_id}/`, payload, "get"),
+
+  /* <COUPON> */
+  getAllCoupon: (payload) => mainRequest(`/allCoupon/`, payload, "get"),
 };
 
 export default SERVICES;
