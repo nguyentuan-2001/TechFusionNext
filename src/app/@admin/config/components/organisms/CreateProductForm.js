@@ -131,8 +131,9 @@ const CreateProductForm = ({ isNew = true }) => {
                 </p>
                 <Controller
                   methods={methods}
-                  name="province"
+                  name="caregory"
                   control={control}
+                  // rules={{ required: "Category is required" }}
                   render={({ field }) => {
                     const { onChange, value, ref } = field;
                     return (
@@ -145,9 +146,9 @@ const CreateProductForm = ({ isNew = true }) => {
                   }}
                 />
 
-                {errors.province && (
-                  <p className="text-[#FF6868] pb-3">
-                    {errors.province.message}
+                {errors.caregory && (
+                  <p className="text-red text-xs italic pt-1">
+                    {errors.caregory.message}
                   </p>
                 )}
               </div>

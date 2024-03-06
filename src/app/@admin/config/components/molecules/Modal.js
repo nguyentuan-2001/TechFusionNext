@@ -33,9 +33,9 @@ export const Modal = ({ isOpen, setIsOpen, content }) => {
               leaveFrom="translate-y-0"
               leaveTo="translate-y-full"
             >
-              <Dialog.Panel className="bg-[#F5F5F5]  overflow-hidden">
+              <Dialog.Panel className="bg-[#F5F5F5] overflow-hidden border-t-4 border-solid border-[#3699FF]">
                 <div className="flex flex-col h-full">
-                  <div className="py-6 px-8 bg-white text-black rounded-t-[32px] w-full transition-all">
+                  <div className="py-6 px-8 bg-white text-black w-full transition-all">
                     {content}
                   </div>
                 </div>

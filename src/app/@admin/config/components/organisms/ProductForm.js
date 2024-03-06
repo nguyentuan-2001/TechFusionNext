@@ -8,6 +8,7 @@ import {
   ListProducts,
   PostCategory,
   UpdateCategories,
+  UpdateProductsStatus,
 } from "../../utils/auth";
 import { CATEGORY_STATUS } from "../../common";
 import Link from "next/link";
@@ -61,11 +62,10 @@ export const ProductForm = () => {
     const value = e.target.checked ? 1 : 0;
 
     const payload = {
-      category_id: item.category_id,
-      category_name: item.category_name,
-      category_status: value,
+      product_id: item.product_id,
+      product_status: value,
     };
-    await UpdateCategories(payload);
+    await UpdateProductsStatus(payload);
 
     setIsReload(!isReload);
     Notification.success("Updated status successfully!");

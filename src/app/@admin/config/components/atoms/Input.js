@@ -109,7 +109,7 @@ export const InputFormAdmin = ({
         disabled={disabled}
       />
       {required && name && errors[name] && errors[name].type === "required" && (
-        <p className="text-red text-xs italic">{errors[name].message}</p>
+        <p className="text-red text-xs italic pt-1">{errors[name].message}</p>
       )}
     </div>
   );

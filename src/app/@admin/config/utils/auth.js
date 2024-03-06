@@ -216,7 +216,7 @@ export const UpdateOrderStatus = async (payload) => {
   }
 };
 
-/* <ORDER> */
+/* <CUSTOMER> */
 export const GetCustomers = async (payload) => {
   try {
     const { data, status } = await SERVICES.getCustomer(payload);
