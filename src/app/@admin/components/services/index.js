@@ -90,6 +90,8 @@ const SERVICES = {
   postNews: (payload) => mainRequest(`/news/`, payload, "post"),
   updateNews: (payload) =>
     mainRequest(`/news/${payload.news_id}/`, payload, "put"),
+  updateNewsStatus: (payload) =>
+    mainRequest(`/news/updateStatus/${payload.news_id}/`, payload, "put"),
 
   /* <COUPON> */
   getCoupon: (payload) => mainRequest(`/coupon/`, payload, "get"),

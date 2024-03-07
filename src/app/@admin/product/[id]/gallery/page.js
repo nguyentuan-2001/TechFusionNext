@@ -1,9 +1,10 @@
 "use client";
-import { ButtonModal } from "@/app/@admin/config/components/atoms/Button";
-import Notification from "@/app/@admin/config/components/atoms/Notification";
-import { UploadImage } from "@/app/@admin/config/components/molecules/UploadImage";
-import { DeleteGallery, ListGalleries, PostGalleries } from "@/app/@admin/config/utils/auth";
-import { ConvertFirebase } from "@/app/@admin/config/utils/firebase";
+import { DeleteGallery, ListGalleries, PostGalleries } from "@/app/@admin/components/utils/auth";
+import { ButtonModal } from "@/app/@admin/components/component/atoms/Button";
+import Notification from "@/app/@admin/components/component/atoms/Notification";
+import { UploadImage } from "@/app/@admin/components/component/molecules/UploadImage";
+import { ConvertFirebase } from "@/app/@admin/components/utils/firebase";
+
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

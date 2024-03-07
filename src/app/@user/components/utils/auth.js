@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import Notification from "../components/atoms/Notification";
+import Notification from "../component/atoms/Notification";
 import SERVICES from "../services";
 
 /* <CUSTOMER> */

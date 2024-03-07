@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const Date = () => {
+export const DateForm = () => {
   const [selectedDate, setSelectedDate] = useState("");
 
   const handleDateChange = (event) => {

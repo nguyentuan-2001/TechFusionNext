@@ -54,7 +54,7 @@ export const Navbar = () => {
     {
       name: "Coupon",
       icon: <BiSolidDiscount className="text-3xl" />,
-      link: "/news",
+      link: "/coupon",
     },
   ];
 

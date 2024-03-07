@@ -1,4 +1,4 @@
-import { UserForm } from "../config/components/organisms/UserForm";
+import { UserForm } from "../components/component/organisms/UserForm";
 
 const UserPage = () => {
   return (

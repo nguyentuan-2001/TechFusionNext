@@ -1,8 +1,9 @@
 "use client";
 import { useSearchParams } from "next/navigation";
 import { Inter } from "next/font/google";
-import { Layout } from "./@user/config/components/templates/Layout";
-import { LayoutAdmin } from "./@admin/config/components/templates/Layout";
+import { Layout } from "./@user/components/component/templates/Layout";
+import { LayoutAdmin } from "./@admin/components/component/templates/Layout";
+
 
 const inter = Inter({ subsets: ["latin"] });
 

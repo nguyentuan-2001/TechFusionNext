@@ -1,4 +1,4 @@
-import { NewsForm } from "../config/components/organisms/News";
+import { NewsForm } from "../components/component/organisms/News";
 
 export const metadata = {
   title: "Technology",

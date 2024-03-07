@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import Notification from "../components/atoms/Notification";
+import Notification from "../component/atoms/Notification";
 import SERVICES from "../services";
 
 /* <ADMIN> */
@@ -296,6 +296,19 @@ export const PostNews = async (payload) => {
 export const UpdateNews = async (payload) => {
   try {
     const { data, status } = await SERVICES.updateNews(payload);
+    if (status === 200) {
+      return data;
+    } else {
+      logError(data);
+    }
+  } catch (error) {
+    console.error("Lỗi khi gọi API:", error);
+  }
+};
+
+export const UpdateNewsStatus = async (payload) => {
+  try {
+    const { data, status } = await SERVICES.updateNewsStatus(payload);
     if (status === 200) {
       return data;
     } else {
