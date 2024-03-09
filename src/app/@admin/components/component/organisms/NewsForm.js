@@ -1,13 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ConfirmDelete } from "../molecules/ConfirmDelete";
 import { TableForm } from "../molecules/Table";
 import { HiArchiveBoxXMark } from "react-icons/hi2";
-import { FaPenToSquare } from "react-icons/fa6";
+import { FaPenToSquare, FaPlus } from "react-icons/fa6";
 import Link from "next/link";
-import { GetNews, UpdateNews, UpdateNewsStatus } from "../../utils/auth";
+import { DeleteNews, GetNews, UpdateNews, UpdateNewsStatus } from "../../utils/auth";
 import { ToggleSwitch } from "../atoms/ToggleSwitch";
 import Notification from "../atoms/Notification";
+import { ButtonIcon } from "../atoms/Button";
+import { useRouter } from "next/navigation";
 
 export const NewsForm = () => {
   const [dataAll, setDataAll] = useState();
@@ -15,6 +17,8 @@ export const NewsForm = () => {
   const [isReload, setIsReload] = useState(false);
   const [dataUpdate, setDataUpdate] = useState();
   const [isNew, setIsNew] = useState(false);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -89,8 +93,30 @@ export const NewsForm = () => {
       </tr>
     ))
   );
+
+  const handleDelete = async () => {
+    setIsOpen(false);
+    const payload = {
+      news_id: dataUpdate.news_id,
+    };
+    await DeleteNews(payload);
+
+    setIsReload(!isReload);
+    Notification.success("Delete category successfully!");
+  };
+
   return (
     <>
+      <div className="flex justify-end mb-5">
+        <ButtonIcon
+          title={"Add News"}
+          icon={<FaPlus />}
+          type={"button"}
+          onClick={() => {
+            router.push("/news/create");
+          }}
+        />
+      </div>
       <TableForm dataThead={dataThead} dataBody={dataBody} />
       <ConfirmDelete
         title={"Do you want to delete the customer?"}

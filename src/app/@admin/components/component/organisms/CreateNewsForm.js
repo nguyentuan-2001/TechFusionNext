@@ -1,12 +1,15 @@
 "use client";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { InputFormAdmin } from "../atoms/Input";
+import { InputForm, InputFormAdmin } from "../atoms/Input";
 import { CustomEditor } from "../molecules/FormEditor";
 import { ButtonModal } from "../atoms/Button";
+import { UploadInfoImage } from "../molecules/UploadInfoImage";
 
 export const CreateNewsForm = ({ isNew = true }) => {
   const [content, setContent] = useState();
+  const [selectedFilesInfo, setSelectedFilesInfo] = useState([]);
+
   const {
     register,
     handleSubmit,
@@ -24,32 +27,53 @@ export const CreateNewsForm = ({ isNew = true }) => {
 
   return (
     <form onSubmit={handleSubmit(isNew ? handleCreate : handleUpdate)}>
-      <p className="uppercase text-center mb-5 font-bold border-b-2 pb-4">
+      <p className="uppercase text-center mb-5 text-lg font-bold border-b-2 pb-4 border-white">
         {isNew ? "Create" : "Update"} News
       </p>
 
-      <div className="flex gap-5">
-        <InputFormAdmin
-          register={register("news_name", {
-            required: "News name cannot be left blank",
-          })}
-          type="text"
-          placeholder={"news name"}
-          label={"News Name"}
-          required={true}
-          errors={errors}
-          name={"news_name"}
-        />
-
-        <InputFormAdmin
-          register={register("news_content")}
-          type="text"
-          placeholder={"news content"}
-          label={"News Content"}
-        />
+      <div className="grid grid-cols-10 w-full items-center">
+        <p className="text-[#3f4657] font-medium text-sm pb-2 col-span-1">
+          News Content
+        </p>
+        <div className="col-span-9">
+          <InputForm
+            register={register("news_name", {
+              required: "News name cannot be left blank",
+            })}
+            type="text"
+            placeholder={"News name "}
+          />
+        </div>
       </div>
+      
+      <div className="flex gap-5">
+        <div>
+          <UploadInfoImage
+            name={"News Image"}
+            selectedFiles={selectedFilesInfo}
+            setSelectedFiles={setSelectedFilesInfo}
+          />
+        </div>
 
-      <CustomEditor content={content} setContent={setContent} />
+        <div className="">
+          <InputFormAdmin
+            register={register("news_name", {
+              required: "News name cannot be left blank",
+            })}
+            type="text"
+            placeholder={"news name"}
+            // label={"News Name"}
+            // required={true}
+            errors={errors}
+            name={"news_name"}
+          />
+
+          <p className="text-[#3f4657] font-medium text-sm pb-2">
+            News Content
+          </p>
+          <CustomEditor content={content} setContent={setContent} />
+        </div>
+      </div>
 
       <div className="flex justify-end mt-5 gap-4">
         <ButtonModal
